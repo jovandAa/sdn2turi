@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SDN Turi 2 Refactor
 
-## Getting Started
+Website sekolah berbasis Next.js + Prisma + PostgreSQL (Neon) + Cloudinary.
 
-First, run the development server:
+## Tech Stack
+
+- Next.js 16 (App Router)
+- Prisma ORM
+- Neon PostgreSQL
+- NextAuth (Credentials)
+- Cloudinary + next-cloudinary
+- Tailwind CSS
+- tRPC + React Query + Zustand
+
+## 1. Persiapan
+
+Pastikan sudah terpasang:
+
+- Node.js 20+
+- npm 10+
+- Akses database PostgreSQL (Neon)
+- Akun Cloudinary
+
+## 2. Install Dependency
+
+```bash
+npm install
+```
+
+## 3. Setup Environment
+
+1. Copy file example:
+
+```bash
+cp .env.example .env
+```
+
+2. Isi semua value di `.env`.
+
+Lihat daftar variabel di `.env.example`.
+
+## 4. Setup Database
+
+Generate Prisma client:
+
+```bash
+npx prisma generate
+```
+
+Push schema ke database:
+
+```bash
+npm run db:push
+```
+
+Seed data awal:
+
+```bash
+npm run db:seed
+```
+
+## 5. Jalankan Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 6. Akun Seed Default
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- SUPER_ADMIN:
+  - Email: `admin@sdnturi2.sch.id`
+  - Password: nilai dari `ADMIN_PASSWORD` (default fallback: `Admin123!`)
+- ADMIN:
+  - Email: `operator@sdnturi2.sch.id`
+  - Password: nilai dari `ADMIN_PASSWORD` (default fallback: `Admin123!`)
 
-## Learn More
+## 7. Script Penting
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` : jalankan app mode development
+- `npm run build` : build production
+- `npm run start` : jalankan hasil build
+- `npm run lint` : linting
+- `npm run db:push` : sinkron schema Prisma ke DB
+- `npm run db:seed` : isi data awal
+- `npm run media:upload` : upload file dari folder `public/media` ke Cloudinary dan update map seed
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 8. Catatan Keamanan
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Jangan commit `.env` ke git.
+- `NEXTAUTH_SECRET` wajib random dan kuat di production.
+- `CLOUDINARY_API_SECRET` hanya untuk server-side, jangan expose ke client.
+- Setelah deploy, update `NEXTAUTH_URL` ke domain production.

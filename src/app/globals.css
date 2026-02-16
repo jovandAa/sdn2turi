@@ -1,42 +1,112 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+﻿@import "tailwindcss";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --beige-100: #f5f1e8;
+  --ink-900: #111827;
 }
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  min-height: 100%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  @apply bg-[#f7f5ef] text-zinc-800 antialiased;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+h1,
+h2,
+h3,
+h4 {
+  @apply tracking-tight text-zinc-900;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.card-surface {
+  @apply rounded-3xl border border-zinc-200 bg-white shadow-sm;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.input-base {
+  @apply w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900/10;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-black;
+}
+
+.btn-danger {
+  @apply inline-flex items-center justify-center rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center rounded-xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-black;
+}
+
+.section {
+  @apply rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm;
+}
+
+.card {
+  @apply rounded-2xl border border-zinc-200 bg-white p-4;
+}
+
+.grid {
+  @apply grid gap-4;
+}
+
+.grid-2 {
+  @apply grid-cols-1 md:grid-cols-2;
+}
+
+.grid-3 {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.badge {
+  @apply inline-flex rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-700;
+}
+
+.muted {
+  @apply text-zinc-500;
+}
+
+.hero {
+  @apply rounded-3xl border border-zinc-200 bg-[#ece8df] p-10 text-center shadow-sm;
+}
+
+.hero h1 {
+  @apply mx-auto max-w-4xl text-5xl font-semibold leading-tight text-zinc-900;
+}
+
+.hero p {
+  @apply mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-zinc-700;
+}
+
+.page-media {
+  @apply h-52 w-full rounded-2xl border border-zinc-200 object-cover;
+}
+
+form {
+  @apply grid gap-3;
+}
+
+label {
+  @apply block text-sm font-medium text-zinc-700;
+}
+
+label input,
+label textarea,
+label select {
+  @apply mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900/10;
+}
+
+textarea {
+  min-height: 110px;
+}
+
+ul, ol {
+  @apply pl-5;
 }

@@ -1,0 +1,462 @@
+[
+  {
+    "fileName": "ANBK.jpeg",
+    "publicId": "sdn-turi2/assets/anbk-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 822380,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232945/sdn-turi2/assets/anbk-jpeg.jpg"
+  },
+  {
+    "fileName": "angklung.jpg",
+    "publicId": "sdn-turi2/assets/angklung-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4032,
+    "height": 3024,
+    "bytes": 1152003,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232946/sdn-turi2/assets/angklung-jpg.jpg"
+  },
+  {
+    "fileName": "angklung2.jpg",
+    "publicId": "sdn-turi2/assets/angklung2-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4032,
+    "height": 3024,
+    "bytes": 1789373,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232948/sdn-turi2/assets/angklung2-jpg.jpg"
+  },
+  {
+    "fileName": "ASY'ARI.jpg",
+    "publicId": "sdn-turi2/assets/asyari-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 332,
+    "height": 500,
+    "bytes": 10775,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232949/sdn-turi2/assets/asyari-jpg.jpg"
+  },
+  {
+    "fileName": "AulaDalam_1.jpeg",
+    "publicId": "sdn-turi2/assets/auladalam1-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 895955,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232950/sdn-turi2/assets/auladalam1-jpeg.jpg"
+  },
+  {
+    "fileName": "AulaLuar.jpeg",
+    "publicId": "sdn-turi2/assets/aulaluar-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 704429,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232952/sdn-turi2/assets/aulaluar-jpeg.jpg"
+  },
+  {
+    "fileName": "BannerPano.jpeg",
+    "publicId": "sdn-turi2/assets/bannerpano-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 5585,
+    "height": 2148,
+    "bytes": 1862010,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232954/sdn-turi2/assets/bannerpano-jpeg.jpg"
+  },
+  {
+    "fileName": "bola.jpg",
+    "publicId": "sdn-turi2/assets/bola-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 702,
+    "height": 465,
+    "bytes": 54884,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232956/sdn-turi2/assets/bola-jpg.jpg"
+  },
+  {
+    "fileName": "juaralomba.png",
+    "publicId": "sdn-turi2/assets/juaralomba-png",
+    "resourceType": "IMAGE",
+    "format": "png",
+    "width": 306,
+    "height": 310,
+    "bytes": 45952,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232957/sdn-turi2/assets/juaralomba-png.png"
+  },
+  {
+    "fileName": "Kantin.jpeg",
+    "publicId": "sdn-turi2/assets/kantin-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 1936803,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232958/sdn-turi2/assets/kantin-jpeg.jpg"
+  },
+  {
+    "fileName": "karawitan.jpeg",
+    "publicId": "sdn-turi2/assets/karawitan-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1280,
+    "height": 589,
+    "bytes": 62603,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232959/sdn-turi2/assets/karawitan-jpeg.jpg"
+  },
+  {
+    "fileName": "Kelas5Luar.jpeg",
+    "publicId": "sdn-turi2/assets/kelas5luar-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 1001459,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232961/sdn-turi2/assets/kelas5luar-jpeg.jpg"
+  },
+  {
+    "fileName": "LAB.jpeg",
+    "publicId": "sdn-turi2/assets/lab-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 807321,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232962/sdn-turi2/assets/lab-jpeg.jpg"
+  },
+  {
+    "fileName": "lapangan.jpeg",
+    "publicId": "sdn-turi2/assets/lapangan-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 1827465,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232963/sdn-turi2/assets/lapangan-jpeg.jpg"
+  },
+  {
+    "fileName": "Lapangan1.jpeg",
+    "publicId": "sdn-turi2/assets/lapangan1-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1280,
+    "height": 960,
+    "bytes": 251815,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232964/sdn-turi2/assets/lapangan1-jpeg.jpg"
+  },
+  {
+    "fileName": "logo-sd.png",
+    "publicId": "sdn-turi2/assets/logo-sd-png",
+    "resourceType": "IMAGE",
+    "format": "png",
+    "width": 3464,
+    "height": 3464,
+    "bytes": 3165876,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232966/sdn-turi2/assets/logo-sd-png.png"
+  },
+  {
+    "fileName": "lukis1.jpeg",
+    "publicId": "sdn-turi2/assets/lukis1-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1599,
+    "height": 899,
+    "bytes": 189438,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232967/sdn-turi2/assets/lukis1-jpeg.jpg"
+  },
+  {
+    "fileName": "MusholaDalam.jpeg",
+    "publicId": "sdn-turi2/assets/musholadalam-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 935567,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232968/sdn-turi2/assets/musholadalam-jpeg.jpg"
+  },
+  {
+    "fileName": "MusholaLuar.jpeg",
+    "publicId": "sdn-turi2/assets/musholaluar-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 870616,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232969/sdn-turi2/assets/musholaluar-jpeg.jpg"
+  },
+  {
+    "fileName": "PanoKelas.jpeg",
+    "publicId": "sdn-turi2/assets/panokelas-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 5576,
+    "height": 2151,
+    "bytes": 1114729,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232971/sdn-turi2/assets/panokelas-jpeg.jpg"
+  },
+  {
+    "fileName": "PerpusDalam_1.jpeg",
+    "publicId": "sdn-turi2/assets/perpusdalam1-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 991699,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232972/sdn-turi2/assets/perpusdalam1-jpeg.jpg"
+  },
+  {
+    "fileName": "PerpusDalam_2.jpeg",
+    "publicId": "sdn-turi2/assets/perpusdalam2-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 1786523,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232973/sdn-turi2/assets/perpusdalam2-jpeg.jpg"
+  },
+  {
+    "fileName": "PerpusLuar.jpeg",
+    "publicId": "sdn-turi2/assets/perpusluar-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 976366,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232974/sdn-turi2/assets/perpusluar-jpeg.jpg"
+  },
+  {
+    "fileName": "pramuka.mp4",
+    "publicId": "sdn-turi2/assets/pramuka-mp4",
+    "resourceType": "VIDEO",
+    "format": "mp4",
+    "width": 848,
+    "height": 480,
+    "bytes": 1311678,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/video/upload/v1771232977/sdn-turi2/assets/pramuka-mp4.mp4"
+  },
+  {
+    "fileName": "pramuka1.jpg",
+    "publicId": "sdn-turi2/assets/pramuka1-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1280,
+    "height": 960,
+    "bytes": 159186,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232978/sdn-turi2/assets/pramuka1-jpg.jpg"
+  },
+  {
+    "fileName": "pramuka2.jpeg",
+    "publicId": "sdn-turi2/assets/pramuka2-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1280,
+    "height": 960,
+    "bytes": 142368,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232979/sdn-turi2/assets/pramuka2-jpeg.jpg"
+  },
+  {
+    "fileName": "prestasi1.jpg",
+    "publicId": "sdn-turi2/assets/prestasi1-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 305,
+    "height": 308,
+    "bytes": 37300,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232981/sdn-turi2/assets/prestasi1-jpg.jpg"
+  },
+  {
+    "fileName": "rebana.jpeg",
+    "publicId": "sdn-turi2/assets/rebana-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1600,
+    "height": 1200,
+    "bytes": 112651,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232982/sdn-turi2/assets/rebana-jpeg.jpg"
+  },
+  {
+    "fileName": "Rebana1.jpeg",
+    "publicId": "sdn-turi2/assets/rebana1-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1600,
+    "height": 900,
+    "bytes": 116422,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232983/sdn-turi2/assets/rebana1-jpeg.jpg"
+  },
+  {
+    "fileName": "rebana3.jpeg",
+    "publicId": "sdn-turi2/assets/rebana3-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1600,
+    "height": 1200,
+    "bytes": 100398,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232984/sdn-turi2/assets/rebana3-jpeg.jpg"
+  },
+  {
+    "fileName": "ruanganseni1.jpg",
+    "publicId": "sdn-turi2/assets/ruanganseni1-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4032,
+    "height": 3024,
+    "bytes": 1144132,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232985/sdn-turi2/assets/ruanganseni1-jpg.jpg"
+  },
+  {
+    "fileName": "RuangGuruDalam.jpeg",
+    "publicId": "sdn-turi2/assets/ruanggurudalam-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 1107904,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232987/sdn-turi2/assets/ruanggurudalam-jpeg.jpg"
+  },
+  {
+    "fileName": "RuangGuruLuar.jpeg",
+    "publicId": "sdn-turi2/assets/ruangguruluar-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 924329,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232989/sdn-turi2/assets/ruangguruluar-jpeg.jpg"
+  },
+  {
+    "fileName": "RuangKelas5.jpeg",
+    "publicId": "sdn-turi2/assets/ruangkelas5-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 940385,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232990/sdn-turi2/assets/ruangkelas5-jpeg.jpg"
+  },
+  {
+    "fileName": "RuangPano.jpeg",
+    "publicId": "sdn-turi2/assets/ruangpano-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 6014,
+    "height": 1995,
+    "bytes": 2592954,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232991/sdn-turi2/assets/ruangpano-jpeg.jpg"
+  },
+  {
+    "fileName": "SD.jpg",
+    "publicId": "sdn-turi2/assets/sd-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4032,
+    "height": 3024,
+    "bytes": 1233117,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232992/sdn-turi2/assets/sd-jpg.jpg"
+  },
+  {
+    "fileName": "senam.jpg",
+    "publicId": "sdn-turi2/assets/senam-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 410,
+    "height": 622,
+    "bytes": 87223,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232994/sdn-turi2/assets/senam-jpg.jpg"
+  },
+  {
+    "fileName": "seni-lukis.jpg",
+    "publicId": "sdn-turi2/assets/seni-lukis-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1280,
+    "height": 719,
+    "bytes": 110083,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232995/sdn-turi2/assets/seni-lukis-jpg.jpg"
+  },
+  {
+    "fileName": "Tari.jpeg",
+    "publicId": "sdn-turi2/assets/tari-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 1040,
+    "height": 780,
+    "bytes": 66444,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232996/sdn-turi2/assets/tari-jpeg.jpg"
+  },
+  {
+    "fileName": "Toilet.jpeg",
+    "publicId": "sdn-turi2/assets/toilet-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 571398,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232997/sdn-turi2/assets/toilet-jpeg.jpg"
+  },
+  {
+    "fileName": "TU.jpeg",
+    "publicId": "sdn-turi2/assets/tu-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 799623,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771232999/sdn-turi2/assets/tu-jpeg.jpg"
+  },
+  {
+    "fileName": "UKS.jpeg",
+    "publicId": "sdn-turi2/assets/uks-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4000,
+    "height": 3000,
+    "bytes": 706175,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771233001/sdn-turi2/assets/uks-jpeg.jpg"
+  },
+  {
+    "fileName": "upacara.jpg",
+    "publicId": "sdn-turi2/assets/upacara-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 3024,
+    "height": 4032,
+    "bytes": 1315966,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771233014/sdn-turi2/assets/upacara-jpg.jpg"
+  },
+  {
+    "fileName": "upacara2.jpg.jpeg",
+    "publicId": "sdn-turi2/assets/upacara2jpg-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4032,
+    "height": 3024,
+    "bytes": 1696167,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771233020/sdn-turi2/assets/upacara2jpg-jpeg.jpg"
+  },
+  {
+    "fileName": "VisiPano.jpeg",
+    "publicId": "sdn-turi2/assets/visipano-jpeg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 4518,
+    "height": 2656,
+    "bytes": 2361026,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771233030/sdn-turi2/assets/visipano-jpeg.jpg"
+  },
+  {
+    "fileName": "voli.jpg",
+    "publicId": "sdn-turi2/assets/voli-jpg",
+    "resourceType": "IMAGE",
+    "format": "jpg",
+    "width": 271,
+    "height": 186,
+    "bytes": 8858,
+    "secureUrl": "https://res.cloudinary.com/divw2nx2m/image/upload/v1771233031/sdn-turi2/assets/voli-jpg.jpg"
+  }
+]
