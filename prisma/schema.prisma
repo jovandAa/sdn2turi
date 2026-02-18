@@ -218,3 +218,30 @@ model SiteSetting {
   value     Json
   updatedAt DateTime @updatedAt
 }
+
+model SchoolProfileContent {
+  id                    String   @id @default(cuid())
+  key                   String   @unique @default("main")
+  schoolName            String
+  status                String
+  level                 String
+  accreditation         String
+  accreditationSk       String?
+  accreditationDate     String?
+  curriculum            String
+  address               String
+  profileParagraph1     String
+  profileParagraph2     String
+  profileParagraph3     String
+  vision                String
+  missions              Json
+  studentSummary        String
+  aboutParagraph1       String
+  aboutParagraph2       String
+  aboutParagraph3       String
+  principalName         String
+  principalTitle        String
+  principalPhotoPublicId String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}

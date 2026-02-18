@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
@@ -51,7 +51,6 @@ const navGroups: NavGroup[] = [
     label: "Kontak",
     children: [
       { label: "Hubungi Kami", href: "/kontak" },
-      { label: "Alamat", href: "/alamat" },
     ],
   },
 ];
@@ -60,23 +59,23 @@ export function SiteHeader({ schoolName, tagline, logoUrl }: HeaderProps) {
   const { mobileNavOpen, toggleMobileNav, setMobileNavOpen, activeDropdown, setActiveDropdown } = useUiStore();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-indigo-100 bg-white/95 shadow-md backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
         <Link href="/" className="flex items-center gap-3" onClick={() => setMobileNavOpen(false)}>
           {logoUrl ? (
-            <img src={logoUrl} alt="Logo SDN" className="h-10 w-10 rounded-full object-cover ring-1 ring-zinc-200" />
+            <img src={logoUrl} alt="Logo SDN" className="h-10 w-10 rounded-full object-cover ring-1 ring-indigo-100" />
           ) : (
             <div className="h-10 w-10 rounded-full bg-zinc-200 ring-1 ring-zinc-300" />
           )}
           <div>
-            <p className="text-base font-bold text-zinc-900">{schoolName}</p>
-            <p className="text-xs text-zinc-500">{tagline}</p>
+            <p className="bg-gradient-to-r from-indigo-500 to-violet-600 bg-clip-text text-base font-extrabold text-transparent">{schoolName}</p>
+            <p className="text-xs text-slate-500">{tagline}</p>
           </div>
         </Link>
 
         <button
           suppressHydrationWarning
-          className="rounded-lg border border-zinc-200 p-2 lg:hidden"
+          className="rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 p-2 text-white shadow-md lg:hidden"
           onClick={toggleMobileNav}
           aria-label="Toggle menu"
         >
@@ -90,7 +89,7 @@ export function SiteHeader({ schoolName, tagline, logoUrl }: HeaderProps) {
                 <Link
                   key={group.key}
                   href={group.href || "#"}
-                  className="rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+                  className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-600"
                 >
                   {group.label}
                 </Link>
@@ -106,7 +105,7 @@ export function SiteHeader({ schoolName, tagline, logoUrl }: HeaderProps) {
               >
                 <button
                   suppressHydrationWarning
-                  className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+                  className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-600"
                 >
                   {group.label}
                   <ChevronDown className="h-4 w-4" />
@@ -117,13 +116,13 @@ export function SiteHeader({ schoolName, tagline, logoUrl }: HeaderProps) {
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 8 }}
-                      className="absolute left-0 top-11 w-60 rounded-xl border border-zinc-200 bg-white p-2 shadow-lg"
+                      className="absolute left-0 top-11 w-60 rounded-xl border border-indigo-100 bg-white p-2 shadow-lg"
                     >
                       {group.children.map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="block rounded-lg px-3 py-2 text-sm text-zinc-600 transition hover:bg-zinc-100"
+                          className="block rounded-lg px-3 py-2 text-sm text-slate-600 transition hover:bg-indigo-50 hover:text-indigo-600"
                         >
                           {item.label}
                         </Link>
@@ -143,20 +142,20 @@ export function SiteHeader({ schoolName, tagline, logoUrl }: HeaderProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="border-t border-zinc-200 bg-white lg:hidden"
+            className="border-t border-indigo-100 bg-white lg:hidden"
           >
             <div className="mx-auto max-w-7xl space-y-2 px-4 py-3">
               {navGroups.map((group) => (
                 <div key={group.key}>
                   {group.children ? (
-                    <details className="rounded-lg border border-zinc-200 p-2">
-                      <summary className="cursor-pointer list-none text-sm font-semibold text-zinc-700">{group.label}</summary>
+                    <details className="rounded-lg border border-indigo-100 p-2">
+                      <summary className="cursor-pointer list-none text-sm font-semibold text-slate-700">{group.label}</summary>
                       <div className="mt-2 space-y-1">
                         {group.children.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="block rounded-md px-2 py-1.5 text-sm text-zinc-600 hover:bg-zinc-100"
+                            className="block rounded-md px-2 py-1.5 text-sm text-slate-600 hover:bg-indigo-50"
                             onClick={() => setMobileNavOpen(false)}
                           >
                             {item.label}
@@ -167,7 +166,7 @@ export function SiteHeader({ schoolName, tagline, logoUrl }: HeaderProps) {
                   ) : (
                     <Link
                       href={group.href || "#"}
-                      className="block rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-700"
+                      className="block rounded-lg border border-indigo-100 px-3 py-2 text-sm font-medium text-slate-700"
                       onClick={() => setMobileNavOpen(false)}
                     >
                       {group.label}

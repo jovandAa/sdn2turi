@@ -12,7 +12,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="mx-auto grid w-full max-w-7xl gap-4 px-4 py-6 lg:grid-cols-[260px_1fr] lg:px-8">
+    <div className="admin-simple mx-auto grid w-full max-w-7xl gap-4 px-4 py-6 lg:grid-cols-[260px_1fr] lg:px-8">
       <div className="space-y-4">
         <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
           <p className="text-sm font-semibold text-zinc-900">Admin Panel</p>

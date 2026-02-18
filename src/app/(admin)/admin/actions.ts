@@ -213,6 +213,70 @@ export async function createActivity(formData: FormData) {
   revalidateAll();
 }
 
+export async function deleteActivity(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  if (!id) return;
+
+  await prisma.activity.delete({ where: { id } });
+  revalidateAll();
+}
+
+export async function updateActivity(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  const title = String(formData.get("title") || "").trim();
+  const description = String(formData.get("description") || "").trim();
+  const mediaPublicId = String(formData.get("mediaPublicId") || "").trim();
+  const mediaType = String(formData.get("mediaType") || "IMAGE") === "VIDEO" ? "VIDEO" : "IMAGE";
+
+  if (!id || !title || !description) return;
+
+  await prisma.activity.update({
+    where: { id },
+    data: {
+      title,
+      description,
+    },
+  });
+
+  if (mediaPublicId) {
+    const media = await ensureMediaAsset(mediaPublicId, title, mediaType);
+    if (media) {
+      await prisma.activityMedia.upsert({
+        where: {
+          activityId_mediaId: {
+            activityId: id,
+            mediaId: media.id,
+          },
+        },
+        update: {},
+        create: {
+          activityId: id,
+          mediaId: media.id,
+        },
+      });
+    }
+  }
+
+  revalidateAll();
+}
+
+export async function deleteActivityMedia(formData: FormData) {
+  await ensureAdminAccess();
+
+  const activityMediaId = String(formData.get("activityMediaId") || "").trim();
+  if (!activityMediaId) return;
+
+  await prisma.activityMedia.deleteMany({
+    where: { id: activityMediaId },
+  });
+
+  revalidateAll();
+}
+
 export async function createGalleryAlbum(formData: FormData) {
   await ensureAdminAccess();
 
@@ -361,6 +425,7 @@ export async function updateContact(formData: FormData) {
   const instagram = String(formData.get("instagram") || "").trim();
   const facebook = String(formData.get("facebook") || "").trim();
   const youtube = String(formData.get("youtube") || "").trim();
+  const tiktok = String(formData.get("tiktok") || "").trim();
 
   if (!address || !phone || !email) return;
 
@@ -374,7 +439,7 @@ export async function updateContact(formData: FormData) {
         phone,
         email,
         googleMapsEmbedUrl,
-        social: { instagram, facebook, youtube },
+        social: { instagram, facebook, youtube, tiktok },
       },
     });
   } else {
@@ -384,7 +449,7 @@ export async function updateContact(formData: FormData) {
         phone,
         email,
         googleMapsEmbedUrl,
-        social: { instagram, facebook, youtube },
+        social: { instagram, facebook, youtube, tiktok },
       },
     });
   }

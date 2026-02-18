@@ -1,5 +1,6 @@
-﻿import { getActivities } from "@/lib/cms";
+import { getActivities } from "@/lib/cms";
 import { getMediaUrl } from "@/lib/media";
+import { ActivityPhotoSlider } from "@/components/activity-photo-slider";
 
 export const revalidate = 60;
 
@@ -20,18 +21,10 @@ export default async function KegiatanPage() {
               <h3 className="text-lg font-semibold">{activity.title}</h3>
               <p className="text-sm text-zinc-500">{activity.description}</p>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {activity.media.map((media) => {
-                const mediaUrl = getMediaUrl(media.media);
-                return media.media.resourceType === "VIDEO" ? (
-                  <video key={media.id} className="page-media h-44" controls>
-                    <source src={mediaUrl} />
-                  </video>
-                ) : (
-                  <img key={media.id} className="page-media h-44" src={mediaUrl} alt={activity.title} />
-                );
-              })}
-            </div>
+            <ActivityPhotoSlider
+              title={activity.title}
+              images={activity.media.filter((media) => media.media.resourceType !== "VIDEO").map((media) => getMediaUrl(media.media))}
+            />
           </article>
         ))}
       </section>

@@ -3,7 +3,7 @@ import { getContactInfo } from "@/lib/cms";
 
 export default async function AdminContactPage() {
   const contact = await getContactInfo();
-  const social = (contact?.social as { instagram?: string; facebook?: string; youtube?: string } | null) || {};
+  const social = (contact?.social as { instagram?: string; facebook?: string; youtube?: string; tiktok?: string } | null) || {};
 
   return (
     <article className="section">
@@ -36,6 +36,10 @@ export default async function AdminContactPage() {
         <label>
           YouTube
           <input name="youtube" defaultValue={social.youtube || ""} />
+        </label>
+        <label>
+          TikTok
+          <input name="tiktok" defaultValue={social.tiktok || ""} />
         </label>
         <div className="md:col-span-2">
           <button type="submit" className="btn-primary w-fit">Simpan</button>

@@ -1,8 +1,17 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 :root {
-  --beige-100: #f5f1e8;
-  --ink-900: #111827;
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --accent: #f093fb;
+  --dark: #2d3748;
+  --gray: #4a5568;
+  --light-gray: #f7fafc;
+  --white: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 html,
@@ -11,18 +20,24 @@ body {
 }
 
 body {
-  @apply bg-[#f7f5ef] text-zinc-800 antialiased;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-attachment: fixed;
+  color: var(--dark);
+  @apply antialiased;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  @apply tracking-tight text-zinc-900;
+  @apply tracking-tight;
 }
 
 .card-surface {
-  @apply rounded-3xl border border-zinc-200 bg-white shadow-sm;
+  border: 1px solid rgba(102, 126, 234, 0.12);
+  box-shadow: var(--shadow-md);
+  @apply rounded-3xl bg-white;
 }
 
 .input-base {
@@ -30,7 +45,9 @@ h4 {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-black;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  box-shadow: var(--shadow-md);
+  @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:translate-y-[-2px];
 }
 
 .btn-danger {
@@ -38,19 +55,26 @@ h4 {
 }
 
 .btn-outline {
-  @apply inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50;
+  border: 2px solid rgba(102, 126, 234, 0.35);
+  @apply inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-indigo-50;
 }
 
 .btn {
-  @apply inline-flex items-center justify-center rounded-xl bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-black;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  box-shadow: var(--shadow-md);
+  @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:translate-y-[-2px];
 }
 
 .section {
-  @apply rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm;
+  border: 1px solid rgba(102, 126, 234, 0.12);
+  box-shadow: var(--shadow-md);
+  @apply rounded-3xl bg-white p-6;
 }
 
 .card {
-  @apply rounded-2xl border border-zinc-200 bg-white p-4;
+  border: 1px solid rgba(102, 126, 234, 0.12);
+  box-shadow: var(--shadow-md);
+  @apply rounded-2xl bg-white p-4;
 }
 
 .grid {
@@ -66,7 +90,9 @@ h4 {
 }
 
 .badge {
-  @apply inline-flex rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-700;
+  background: rgba(102, 126, 234, 0.14);
+  color: var(--primary);
+  @apply inline-flex rounded-full px-2.5 py-1 text-xs font-semibold;
 }
 
 .muted {
@@ -74,15 +100,37 @@ h4 {
 }
 
 .hero {
-  @apply rounded-3xl border border-zinc-200 bg-[#ece8df] p-10 text-center shadow-sm;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background-image: url("/media/BannerPano.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: var(--shadow-xl);
+  @apply rounded-3xl p-10 text-center text-white;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.58);
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero h1 {
-  @apply mx-auto max-w-4xl text-5xl font-semibold leading-tight text-zinc-900;
+  text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.35);
+  @apply mx-auto max-w-4xl text-4xl font-extrabold leading-tight text-white md:text-5xl;
 }
 
 .hero p {
-  @apply mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-zinc-700;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  @apply mx-auto mt-4 max-w-3xl text-base leading-relaxed text-slate-100 md:text-xl;
 }
 
 .page-media {
@@ -107,6 +155,55 @@ textarea {
   min-height: 110px;
 }
 
-ul, ol {
+ul,
+ol {
   @apply pl-5;
+}
+
+.admin-simple {
+  @apply rounded-2xl bg-[#f4f5f7] p-3;
+}
+
+.admin-simple .section,
+.admin-simple .card-surface {
+  border: 1px solid #e4e7ec;
+  box-shadow: none;
+  @apply rounded-xl bg-white;
+}
+
+.admin-simple .btn-primary {
+  background: #1f2937;
+  box-shadow: none;
+  @apply rounded-lg px-4 py-2 text-white hover:translate-y-0 hover:bg-black;
+}
+
+.admin-simple .btn-outline {
+  border: 1px solid #d0d5dd;
+  box-shadow: none;
+  @apply rounded-lg bg-white px-4 py-2 text-slate-700 hover:bg-slate-50;
+}
+
+.admin-simple .btn-danger {
+  box-shadow: none;
+  @apply rounded-lg px-4 py-2;
+}
+
+.admin-simple form {
+  @apply gap-2;
+}
+
+.admin-simple label input,
+.admin-simple label textarea,
+.admin-simple label select {
+  @apply rounded-md border-slate-300 focus:border-slate-700 focus:ring-slate-700/10;
+}
+
+.admin-simple aside {
+  border: 1px solid #e4e7ec;
+  box-shadow: none;
+  @apply rounded-xl bg-white;
+}
+
+.admin-simple nav a {
+  @apply rounded-md;
 }
