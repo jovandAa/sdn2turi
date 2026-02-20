@@ -1,7 +1,7 @@
-﻿export default function AdminGroupLayout({
+export default function AdminGroupLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className="min-h-screen bg-zinc-50">{children}</main>;
+  return <main className="flex min-h-screen flex-col bg-zinc-50">{children}</main>;
 }

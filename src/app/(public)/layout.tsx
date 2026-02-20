@@ -16,7 +16,7 @@ export default async function PublicLayout({
   return (
     <>
       <SiteHeader
-        schoolName={identity.schoolName || "SDN Turi 2 Blitar"}
+        schoolName={identity.schoolName || "SDN 2 Turi  Blitar"}
         tagline={identity.tagline || "Website resmi"}
         logoUrl={logoUrl || "/media/logo-sd.png"}
       />

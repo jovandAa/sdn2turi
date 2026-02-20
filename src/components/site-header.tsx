@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useUiStore } from "@/store/ui-store";
 
 type HeaderProps = {
@@ -49,14 +50,17 @@ const navGroups: NavGroup[] = [
   {
     key: "kontak",
     label: "Kontak",
-    children: [
-      { label: "Hubungi Kami", href: "/kontak" },
-    ],
+    children: [{ label: "Hubungi Kami", href: "/kontak" }],
   },
 ];
 
 export function SiteHeader({ schoolName, tagline, logoUrl }: HeaderProps) {
+  const pathname = usePathname();
   const { mobileNavOpen, toggleMobileNav, setMobileNavOpen, activeDropdown, setActiveDropdown } = useUiStore();
+
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-indigo-100 bg-white/95 shadow-md backdrop-blur">
@@ -181,3 +185,4 @@ export function SiteHeader({ schoolName, tagline, logoUrl }: HeaderProps) {
     </header>
   );
 }
+

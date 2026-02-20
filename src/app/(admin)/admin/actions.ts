@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
@@ -297,10 +297,40 @@ export async function createGalleryAlbum(formData: FormData) {
   revalidateAll();
 }
 
+export async function updateGalleryAlbum(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  const title = String(formData.get("title") || "").trim();
+  const description = String(formData.get("description") || "").trim();
+
+  if (!id || !title) return;
+
+  await prisma.galleryAlbum.update({
+    where: { id },
+    data: {
+      title,
+      description,
+    },
+  });
+
+  revalidateAll();
+}
+
+export async function deleteGalleryAlbum(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  if (!id) return;
+
+  await prisma.galleryAlbum.delete({ where: { id } });
+  revalidateAll();
+}
+
 export async function createGalleryItem(formData: FormData) {
   await ensureAdminAccess();
 
-  const albumId = String(formData.get("albumId") || "");
+  const albumId = String(formData.get("albumId") || "").trim();
   const mediaPublicId = String(formData.get("mediaPublicId") || "").trim();
   const caption = String(formData.get("caption") || "").trim();
   const mediaType = String(formData.get("mediaType") || "IMAGE") === "VIDEO" ? "VIDEO" : "IMAGE";
@@ -318,6 +348,45 @@ export async function createGalleryItem(formData: FormData) {
     },
   });
 
+  revalidateAll();
+}
+
+export async function updateGalleryItem(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  const albumId = String(formData.get("albumId") || "").trim();
+  const caption = String(formData.get("caption") || "").trim();
+  const mediaPublicId = String(formData.get("mediaPublicId") || "").trim();
+  const mediaType = String(formData.get("mediaType") || "IMAGE") === "VIDEO" ? "VIDEO" : "IMAGE";
+
+  if (!id || !albumId) return;
+
+  let mediaId: string | undefined;
+  if (mediaPublicId) {
+    const media = await ensureMediaAsset(mediaPublicId, caption || "Gallery Item", mediaType);
+    mediaId = media?.id;
+  }
+
+  await prisma.galleryItem.update({
+    where: { id },
+    data: {
+      albumId,
+      caption,
+      ...(mediaId ? { mediaId } : {}),
+    },
+  });
+
+  revalidateAll();
+}
+
+export async function deleteGalleryItem(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  if (!id) return;
+
+  await prisma.galleryItem.delete({ where: { id } });
   revalidateAll();
 }
 
@@ -1026,3 +1095,4 @@ export async function resetAllRateLimits() {
 
   revalidateAll();
 }
+
