@@ -1,10 +1,10 @@
-import { getStaff } from "@/lib/cms";
-import { getMediaUrl } from "@/lib/media";
+import { getClassPhotoGalleries, getStaff } from "@/lib/cms";
+import { getCloudinaryDeliveryUrl, getMediaUrl } from "@/lib/media";
 import { ClassPhotoSlider } from "@/components/class-photo-slider";
 
 export const revalidate = 60;
 
-const classGalleryMap: Record<string, string[]> = {
+const classGalleryFallback: Record<string, string[]> = {
   "1": ["/media/PanoKelas.jpeg", "/media/RuangPano.jpeg", "/media/SD.jpg"],
   "2": ["/media/PanoKelas.jpeg", "/media/RuangKelas5.jpeg", "/media/Kelas5Luar.jpeg"],
   "3": ["/media/RuangPano.jpeg", "/media/PanoKelas.jpeg", "/media/SD.jpg"],
@@ -13,14 +13,32 @@ const classGalleryMap: Record<string, string[]> = {
   "6": ["/media/SD.jpg", "/media/RuangPano.jpeg", "/media/PanoKelas.jpeg"],
 };
 
-function resolveClassGallery(label: string) {
+function resolveImageValue(raw: string) {
+  const value = String(raw || "").trim();
+  if (!value) return "";
+  if (value.startsWith("/") || value.startsWith("http://") || value.startsWith("https://")) return value;
+  return getCloudinaryDeliveryUrl(value, "IMAGE") || value;
+}
+
+function resolveClassGallery(label: string, galleries: Record<string, unknown>, staffId?: string) {
   const match = label.match(/\d+/);
   const classNo = match?.[0] || "";
-  return classGalleryMap[classNo] || ["/media/PanoKelas.jpeg"];
+
+  const staffRaw = staffId ? galleries[staffId] : undefined;
+  const staffGallery = Array.isArray(staffRaw) ? staffRaw.map((item) => resolveImageValue(String(item))) : [];
+  const staffResolved = staffGallery.filter(Boolean);
+  if (staffResolved.length) return staffResolved;
+
+  const fromSettingRaw = galleries[classNo];
+  const fromSetting = Array.isArray(fromSettingRaw) ? fromSettingRaw.map((item) => resolveImageValue(String(item))) : [];
+  const fallback = (classGalleryFallback[classNo] || ["/media/PanoKelas.jpeg"]).map(resolveImageValue);
+
+  const resolved = fromSetting.filter(Boolean);
+  return resolved.length ? resolved : fallback;
 }
 
 export default async function StaffPage() {
-  const staff = await getStaff();
+  const [staff, classPhotoSetting] = await Promise.all([getStaff(), getClassPhotoGalleries()]);
 
   const principal = staff.find((item) => item.category === "PRINCIPAL") || staff[0] || null;
   const teachers = staff.filter((item) => item.category === "TEACHER");
@@ -68,7 +86,7 @@ export default async function StaffPage() {
             </thead>
             <tbody className="divide-y divide-slate-100 bg-white">
               {teachers.map((item, index) => {
-                const classGallery = resolveClassGallery(`${item.name} ${item.position}`);
+                const classGallery = resolveClassGallery(`${item.name} ${item.position}`, classPhotoSetting, item.id);
                 return (
                   <tr key={item.id}>
                     <td className="px-4 py-3 align-top text-slate-700">

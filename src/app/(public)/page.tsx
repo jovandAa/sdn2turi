@@ -61,7 +61,7 @@ export default async function HomePage() {
     <div className="space-y-10">
       <HeroAnimator>
         <section className="hero">
-          <p className="hero-animate text-xs font-semibold uppercase tracking-[0.18em] text-slate-200">Website Resmi SDN Turi 2 Blitar</p>
+          <p className="hero-animate text-xs font-semibold uppercase tracking-[0.18em] text-slate-200">Website Resmi SDN 2 Turi Blitar</p>
           <h1 className="hero-animate mt-5">{hero?.heading || "Selamat Datang di SDN Turi 2 Blitar"}</h1>
           <p className="hero-animate">
             {heroContent.subtitle || "Membentuk Generasi Cerdas, Kreatif, dan Berakhlak Mulia"}

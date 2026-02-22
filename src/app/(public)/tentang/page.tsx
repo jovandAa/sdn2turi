@@ -17,7 +17,7 @@ export default async function TentangPage() {
       </section>
 
       <section className="section space-y-8">
-        <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">
+        <div className="grid items-start gap-6 lg:grid-cols-[1.7fr_1fr]">
           <article className="rounded-2xl bg-white p-6 shadow-sm">
             <h2 className="text-2xl font-bold text-slate-800">Gambaran Umum</h2>
             <div className="mt-3 space-y-3 text-sm leading-7 text-slate-600 md:text-base">
@@ -28,7 +28,13 @@ export default async function TentangPage() {
           </article>
 
           <aside className="rounded-2xl bg-white p-6 text-center shadow-sm">
-            <img src={principalPhotoUrl} alt="Kepala Sekolah" className="mx-auto mb-4 w-full max-w-[280px] rounded-xl object-cover" />
+            <div className="mx-auto mb-4 aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100">
+              <img
+                src={principalPhotoUrl}
+                alt="Kepala Sekolah"
+                className="h-full w-full object-cover object-top"
+              />
+            </div>
             <h3 className="text-xl font-bold text-slate-800">{profil.principalName}</h3>
             <p className="mt-1 font-bold text-indigo-500">{profil.principalTitle}</p>
           </aside>

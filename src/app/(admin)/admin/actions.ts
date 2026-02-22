@@ -10,6 +10,8 @@ import { cloudinary } from "@/lib/cloudinary";
 import { extractPublicIdFromCloudinaryUrl } from "@/lib/media";
 import { prisma } from "@/lib/prisma";
 
+const PPDB_GRADUATE_LIMIT_PER_YEAR = 50;
+
 const heroSchema = z.object({
   heading: z.string().min(3),
   subtitle: z.string().min(3),
@@ -23,11 +25,13 @@ function revalidateAll() {
   revalidatePath("/tentang");
   revalidatePath("/tenaga-kependidikan");
   revalidatePath("/fasilitas/prasarana");
+  revalidatePath("/fasilitas/perpustakaan");
   revalidatePath("/informasi/galeri");
   revalidatePath("/informasi/kegiatan");
   revalidatePath("/informasi/ppdb");
   revalidatePath("/kontak");
   revalidatePath("/alamat");
+  revalidatePath("/login");
   revalidatePath("/admin");
   revalidatePath("/admin/beranda");
   revalidatePath("/admin/kegiatan");
@@ -69,6 +73,19 @@ async function destroyCloudinaryAsset(publicId: string, resourceType: "image" | 
     resource_type: resourceType,
     invalidate: true,
   });
+}
+
+async function assertPpdbGraduateQuota(graduationYear: string, excludeId?: string) {
+  const total = await prisma.ppdbGraduate.count({
+    where: {
+      graduationYear,
+      ...(excludeId ? { id: { not: excludeId } } : {}),
+    },
+  });
+
+  if (total >= PPDB_GRADUATE_LIMIT_PER_YEAR) {
+    throw new Error(`PPDB_GRADUATE_LIMIT_REACHED_${PPDB_GRADUATE_LIMIT_PER_YEAR}`);
+  }
 }
 
 export async function updateBerandaHero(formData: FormData) {
@@ -321,6 +338,83 @@ export async function createGalleryItem(formData: FormData) {
   revalidateAll();
 }
 
+export async function updateGalleryAlbum(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  const title = String(formData.get("title") || "").trim();
+  const description = String(formData.get("description") || "").trim();
+  const coverPublicId = String(formData.get("coverPublicId") || "").trim();
+  const coverMediaType = String(formData.get("coverMediaType") || "IMAGE") === "VIDEO" ? "VIDEO" : "IMAGE";
+
+  if (!id || !title) return;
+
+  const data: {
+    title: string;
+    description: string | null;
+    coverMediaId?: string | null;
+  } = {
+    title,
+    description: description || null,
+  };
+
+  if (formData.has("coverPublicId")) {
+    if (!coverPublicId) {
+      data.coverMediaId = null;
+    } else {
+      const cover = await ensureMediaAsset(coverPublicId, `${title} cover`, coverMediaType);
+      if (cover) data.coverMediaId = cover.id;
+    }
+  }
+
+  await prisma.galleryAlbum.update({
+    where: { id },
+    data,
+  });
+
+  revalidateAll();
+}
+
+export async function deleteGalleryAlbum(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  if (!id) return;
+
+  await prisma.galleryAlbum.deleteMany({ where: { id } });
+  revalidateAll();
+}
+
+export async function updateGalleryItem(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  const caption = String(formData.get("caption") || "").trim();
+  const sortOrder = Number(String(formData.get("sortOrder") || "0")) || 0;
+
+  if (!id) return;
+
+  await prisma.galleryItem.update({
+    where: { id },
+    data: {
+      caption: caption || null,
+      sortOrder,
+    },
+  });
+
+  revalidateAll();
+}
+
+export async function deleteGalleryItem(formData: FormData) {
+  await ensureAdminAccess();
+
+  const id = String(formData.get("id") || "").trim();
+  if (!id) return;
+
+  await prisma.galleryItem.deleteMany({ where: { id } });
+  revalidateAll();
+}
+
 export async function updatePpdb(formData: FormData) {
   await ensureAdminAccess();
 
@@ -363,6 +457,8 @@ export async function createPpdbGraduate(formData: FormData) {
 
   if (!fullName || !graduationYear) return;
 
+  await assertPpdbGraduateQuota(graduationYear);
+
   await prisma.ppdbGraduate.create({
     data: {
       fullName,
@@ -389,6 +485,13 @@ export async function updatePpdbGraduate(formData: FormData) {
   const isPublished = String(formData.get("isPublished") || "off") === "on";
 
   if (!id || !fullName || !graduationYear) return;
+
+  const existing = await prisma.ppdbGraduate.findUnique({ where: { id } });
+  if (!existing) return;
+
+  if (existing.graduationYear !== graduationYear) {
+    await assertPpdbGraduateQuota(graduationYear, id);
+  }
 
   await prisma.ppdbGraduate.update({
     where: { id },
@@ -811,6 +914,51 @@ export async function updateSiteSocial(formData: FormData) {
         tiktok,
       },
     },
+  });
+
+  revalidateAll();
+}
+
+export async function updateClassPhotos(formData: FormData) {
+  await ensureAdminAccess();
+
+  function normalizeInput(raw: unknown) {
+    const value = String(raw || "").trim();
+    if (!value) return "";
+    if (value.startsWith("/")) return value;
+    if (value.includes("res.cloudinary.com")) {
+      return extractPublicIdFromCloudinaryUrl(value) || value;
+    }
+    return value;
+  }
+
+  const galleries: Record<string, string[]> = {};
+
+  for (const classNo of ["1", "2", "3", "4", "5", "6"]) {
+    const items = [];
+    for (let idx = 1; idx <= 5; idx += 1) {
+      const name = `class_${classNo}_${idx}`;
+      const normalized = normalizeInput(formData.get(name));
+      if (normalized) items.push(normalized);
+    }
+    galleries[classNo] = items;
+  }
+
+  const staff = await prisma.staffMember.findMany({ select: { id: true } });
+  for (const member of staff) {
+    const items = [];
+    for (let idx = 1; idx <= 5; idx += 1) {
+      const name = `staff_${member.id}_${idx}`;
+      const normalized = normalizeInput(formData.get(name));
+      if (normalized) items.push(normalized);
+    }
+    if (items.length) galleries[member.id] = items;
+  }
+
+  await prisma.siteSetting.upsert({
+    where: { key: "class-photos" },
+    update: { value: galleries },
+    create: { key: "class-photos", value: galleries },
   });
 
   revalidateAll();

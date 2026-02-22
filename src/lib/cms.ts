@@ -99,6 +99,11 @@ export async function getStaff() {
   });
 }
 
+export async function getClassPhotoGalleries() {
+  const setting = await prisma.siteSetting.findUnique({ where: { key: "class-photos" } });
+  return (setting?.value as Record<string, unknown>) || {};
+}
+
 export async function getFacilities() {
   return prisma.facility.findMany({
     where: { isActive: true },

@@ -1,15 +1,54 @@
-import { createStaffMember, deleteStaffMember, updateStaffMember } from "@/app/(admin)/admin/actions";
+import { createStaffMember, deleteStaffMember, updateClassPhotos, updateStaffMember } from "@/app/(admin)/admin/actions";
 import { PublicIdUploadField } from "@/components/admin/public-id-upload-field";
 import { prisma } from "@/lib/prisma";
 
+function readDefault(galleries: Record<string, unknown>, classNo: string, idx: number) {
+  const raw = galleries[classNo];
+  if (!Array.isArray(raw)) return "";
+  return String(raw[idx] || "");
+}
+
 export default async function AdminStaffPage() {
-  const staff = await prisma.staffMember.findMany({
-    include: { photo: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  const [staff, classPhotoSetting] = await Promise.all([
+    prisma.staffMember.findMany({
+      include: { photo: true },
+      orderBy: { sortOrder: "asc" },
+    }),
+    prisma.siteSetting.findUnique({ where: { key: "class-photos" } }),
+  ]);
+
+  const galleries = (classPhotoSetting?.value as Record<string, unknown>) || {};
 
   return (
     <div className="space-y-6">
+      <details className="section">
+        <summary className="cursor-pointer select-none text-lg font-semibold">
+          Foto Kelas (untuk halaman Guru &amp; Staf)
+        </summary>
+        <p className="mt-2 text-sm text-zinc-600">
+          Isi dengan <span className="font-semibold">Public ID Cloudinary</span> (disarankan), URL Cloudinary, atau path file{" "}
+          <span className="font-mono">/media/...</span>.
+        </p>
+        <form action={updateClassPhotos} className="mt-4 space-y-6">
+          {["1", "2", "3", "4", "5", "6"].map((classNo) => (
+            <div key={classNo} className="space-y-3">
+              <h4 className="text-base font-semibold text-zinc-800">Kelas {classNo}</h4>
+              <div className="grid gap-3 md:grid-cols-2">
+                {[1, 2, 3, 4, 5].map((idx) => (
+                  <PublicIdUploadField
+                    key={idx}
+                    name={`class_${classNo}_${idx}`}
+                    label={`Foto ${idx}`}
+                    defaultValue={readDefault(galleries, classNo, idx - 1)}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+          <button type="submit" className="btn-outline w-fit">Simpan Foto Kelas</button>
+        </form>
+      </details>
+
       <section className="section">
         <h3 className="text-lg font-semibold">Tambah Guru/Staf</h3>
         <form action={createStaffMember} className="mt-4 grid gap-3 md:grid-cols-2">
@@ -91,6 +130,31 @@ export default async function AdminStaffPage() {
                 <button type="submit" className="btn-outline">Update</button>
               </div>
             </form>
+
+            {item.category === "TEACHER" ? (
+              <details className="mt-4 rounded-xl border border-zinc-200 bg-white p-4">
+                <summary className="cursor-pointer select-none text-sm font-semibold text-zinc-800">
+                  Foto Kelas untuk guru ini
+                </summary>
+                <p className="mt-2 text-sm text-zinc-600">
+                  Ini akan mengganti slider “foto kelas” di halaman Guru &amp; Staf untuk guru ini saja.
+                </p>
+                <form action={updateClassPhotos} className="mt-3 grid gap-3 md:grid-cols-2">
+                  {[1, 2, 3, 4, 5].map((idx) => (
+                    <PublicIdUploadField
+                      key={idx}
+                      name={`staff_${item.id}_${idx}`}
+                      label={`Foto ${idx}`}
+                      defaultValue={readDefault(galleries, item.id, idx - 1)}
+                    />
+                  ))}
+                  <div className="md:col-span-2">
+                    <button type="submit" className="btn-outline w-fit">Simpan Foto Kelas</button>
+                  </div>
+                </form>
+              </details>
+            ) : null}
+
             <form action={deleteStaffMember} className="mt-2">
               <input type="hidden" name="id" value={item.id} />
               <button type="submit" className="btn-danger">Hapus</button>
