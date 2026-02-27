@@ -419,6 +419,8 @@ export async function updatePpdb(formData: FormData) {
   await ensureAdminAccess();
 
   const periodYear = String(formData.get("periodYear") || "").trim();
+  const posterPublicId = String(formData.get("posterPublicId") || "").trim();
+  const posterAltText = String(formData.get("posterAltText") || "").trim();
   const requirements = String(formData.get("requirements") || "")
     .split("\n")
     .map((v) => v.trim())
@@ -431,6 +433,8 @@ export async function updatePpdb(formData: FormData) {
 
   if (!periodYear) return;
 
+  const poster = posterPublicId ? await ensureMediaAsset(posterPublicId, posterAltText || "Poster SPMB", "IMAGE") : null;
+
   await prisma.ppdbInfo.updateMany({ data: { isActive: false } });
   await prisma.ppdbInfo.create({
     data: {
@@ -438,6 +442,7 @@ export async function updatePpdb(formData: FormData) {
       requirements,
       flowSteps,
       notes,
+      posterMediaId: poster?.id || null,
       isActive: true,
     },
   });
@@ -452,7 +457,7 @@ export async function createPpdbGraduate(formData: FormData) {
   const registrationNo = String(formData.get("registrationNo") || "").trim();
   const schoolOrigin = String(formData.get("schoolOrigin") || "").trim();
   const graduationYear = String(formData.get("graduationYear") || "").trim();
-  const rankRaw = String(formData.get("rank") || "").trim();
+  const admissionPath = String(formData.get("admissionPath") || "").trim();
   const isPublished = String(formData.get("isPublished") || "on") === "on";
 
   if (!fullName || !graduationYear) return;
@@ -465,7 +470,7 @@ export async function createPpdbGraduate(formData: FormData) {
       registrationNo: registrationNo || null,
       schoolOrigin: schoolOrigin || null,
       graduationYear,
-      rank: rankRaw ? Number(rankRaw) : null,
+      admissionPath: admissionPath || null,
       isPublished,
     },
   });
@@ -481,7 +486,7 @@ export async function updatePpdbGraduate(formData: FormData) {
   const registrationNo = String(formData.get("registrationNo") || "").trim();
   const schoolOrigin = String(formData.get("schoolOrigin") || "").trim();
   const graduationYear = String(formData.get("graduationYear") || "").trim();
-  const rankRaw = String(formData.get("rank") || "").trim();
+  const admissionPath = String(formData.get("admissionPath") || "").trim();
   const isPublished = String(formData.get("isPublished") || "off") === "on";
 
   if (!id || !fullName || !graduationYear) return;
@@ -500,7 +505,7 @@ export async function updatePpdbGraduate(formData: FormData) {
       registrationNo: registrationNo || null,
       schoolOrigin: schoolOrigin || null,
       graduationYear,
-      rank: rankRaw ? Number(rankRaw) : null,
+      admissionPath: admissionPath || null,
       isPublished,
     },
   });

@@ -73,6 +73,8 @@ model MediaAsset {
   galleryAlbumCovers GalleryAlbum[] @relation("GalleryAlbumCover")
 
   galleryItems GalleryItem[]
+
+  ppdbPosters PpdbInfo[] @relation("PpdbPoster")
 }
 
 model Page {
@@ -184,8 +186,11 @@ model PpdbInfo {
   requirements Json
   flowSteps    Json
   notes        String?
+  posterMediaId String?
   isActive     Boolean @default(true)
   updatedAt    DateTime @updatedAt
+
+  poster MediaAsset? @relation("PpdbPoster", fields: [posterMediaId], references: [id], onDelete: SetNull)
 }
 
 model PpdbGraduate {
@@ -194,12 +199,12 @@ model PpdbGraduate {
   registrationNo String?
   schoolOrigin  String?
   graduationYear String
-  rank          Int?
+  admissionPath String?
   isPublished   Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  @@index([graduationYear, rank])
+  @@index([graduationYear, admissionPath])
 }
 
 model ContactInfo {

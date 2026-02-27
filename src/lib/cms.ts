@@ -142,6 +142,7 @@ export async function getGallery() {
 export async function getPpdb() {
   return prisma.ppdbInfo.findFirst({
     where: { isActive: true },
+    include: { poster: true },
     orderBy: { updatedAt: "desc" },
   });
 }
@@ -152,7 +153,7 @@ export async function getPpdbGraduates(year?: string) {
       isPublished: true,
       graduationYear: year || undefined,
     },
-    orderBy: [{ graduationYear: "desc" }, { rank: "asc" }, { fullName: "asc" }],
+    orderBy: [{ graduationYear: "desc" }, { admissionPath: "asc" }, { fullName: "asc" }],
   });
 }
 

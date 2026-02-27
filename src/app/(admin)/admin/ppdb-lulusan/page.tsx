@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
 
 export default async function AdminPpdbGraduatesPage() {
   const graduates = await prisma.ppdbGraduate.findMany({
-    orderBy: [{ graduationYear: "desc" }, { rank: "asc" }, { fullName: "asc" }],
+    orderBy: [{ graduationYear: "desc" }, { admissionPath: "asc" }, { fullName: "asc" }],
   });
 
   return (
@@ -35,8 +35,8 @@ export default async function AdminPpdbGraduatesPage() {
             <input className="input-base mt-1" name="schoolOrigin" />
           </label>
           <label className="text-sm font-medium text-slate-700">
-            Peringkat
-            <input className="input-base mt-1" type="number" name="rank" min={1} />
+            Jalur
+            <input className="input-base mt-1" name="admissionPath" placeholder="Zonasi / Afirmasi / Prestasi" />
           </label>
           <label className="flex items-center gap-2 self-end text-sm font-medium text-slate-700">
             <input type="checkbox" name="isPublished" defaultChecked />
@@ -71,8 +71,8 @@ export default async function AdminPpdbGraduatesPage() {
                 <input className="input-base mt-1" name="graduationYear" defaultValue={graduate.graduationYear} required />
               </label>
               <label className="text-sm font-medium text-slate-700">
-                Rank
-                <input className="input-base mt-1" type="number" name="rank" min={1} defaultValue={graduate.rank || undefined} />
+                Jalur
+                <input className="input-base mt-1" name="admissionPath" defaultValue={graduate.admissionPath || ""} placeholder="Zonasi / Afirmasi / Prestasi" />
               </label>
               <label className="flex items-center gap-2 self-end text-sm font-medium text-slate-700">
                 <input type="checkbox" name="isPublished" defaultChecked={graduate.isPublished} />

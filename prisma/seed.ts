@@ -474,7 +474,7 @@ async function main() {
         registrationNo: "PPDB-26001",
         schoolOrigin: "TK Melati",
         graduationYear: "2026/2027",
-        rank: 1,
+        admissionPath: "Zonasi",
         isPublished: true,
       },
       {
@@ -482,7 +482,7 @@ async function main() {
         registrationNo: "PPDB-26002",
         schoolOrigin: "RA Al Hidayah",
         graduationYear: "2026/2027",
-        rank: 2,
+        admissionPath: "Afirmasi",
         isPublished: true,
       },
       {
@@ -490,7 +490,7 @@ async function main() {
         registrationNo: "PPDB-25013",
         schoolOrigin: "TK Pertiwi",
         graduationYear: "2025/2026",
-        rank: 1,
+        admissionPath: "Zonasi",
         isPublished: true,
       },
     ],

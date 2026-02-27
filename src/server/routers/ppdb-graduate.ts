@@ -8,7 +8,7 @@ export const ppdbGraduateRouter = router({
     .query(async ({ input }) => {
       return prisma.ppdbGraduate.findMany({
         where: input?.year ? { graduationYear: input.year } : undefined,
-        orderBy: [{ graduationYear: "desc" }, { rank: "asc" }, { fullName: "asc" }],
+        orderBy: [{ graduationYear: "desc" }, { admissionPath: "asc" }, { fullName: "asc" }],
       });
     }),
 });
