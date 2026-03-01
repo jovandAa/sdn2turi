@@ -437,7 +437,7 @@ export async function updatePpdb(formData: FormData) {
       periodYear,
       requirements,
       flowSteps,
-      schedule: schedule.length ? schedule : null,
+      schedule: schedule.length ? schedule : undefined,
       notes,
       posterMediaId: poster?.id || null,
       isActive: true,
