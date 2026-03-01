@@ -1,6 +1,6 @@
 ﻿import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { getIdentity } from "@/lib/cms";
+import { getFooterSetting, getIdentity } from "@/lib/cms";
 import { getCloudinaryDeliveryUrl } from "@/lib/media";
 
 export default async function PublicLayout({
@@ -8,7 +8,7 @@ export default async function PublicLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const identity = await getIdentity();
+  const [identity, footer] = await Promise.all([getIdentity(), getFooterSetting()]);
   const logoUrl = identity.logoPublicId
     ? getCloudinaryDeliveryUrl(identity.logoPublicId, "IMAGE")
     : "/media/logo-sd.png";
@@ -21,7 +21,11 @@ export default async function PublicLayout({
         logoUrl={logoUrl || "/media/logo-sd.png"}
       />
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-7 lg:px-8">{children}</main>
-      <SiteFooter />
+      <SiteFooter
+        schoolName={identity.shortName || identity.schoolName || "SDN Turi 2 Blitar"}
+        footerDescription={footer.footerDescription}
+        copyright={footer.copyright}
+      />
     </div>
   );
 }

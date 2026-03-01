@@ -55,6 +55,19 @@ export async function getIdentity() {
   );
 }
 
+export async function getFooterSetting() {
+  const setting = await prisma.siteSetting.findUnique({ where: { key: "footer" } });
+  return (
+    (setting?.value as {
+      footerDescription?: string;
+      copyright?: string;
+    }) || {
+      footerDescription: "",
+      copyright: "",
+    }
+  );
+}
+
 export async function getBerandaSections() {
   const page = await prisma.page.findUnique({
     where: { slug: "beranda" },
