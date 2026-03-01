@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import { getPpdb, getPpdbGraduateYears, getPpdbGraduates } from "@/lib/cms";
 import { getMediaUrl } from "@/lib/media";
+import { coercePpdbList } from "@/lib/ppdb-list";
 
 type Props = {
   searchParams: Promise<{ year?: string }>;
@@ -18,8 +19,9 @@ export default async function PpdbPage({ searchParams }: Props) {
     getPpdbGraduates(selectedYear),
   ]);
 
-  const requirements = (ppdb?.requirements as string[] | null) || [];
-  const flowSteps = (ppdb?.flowSteps as string[] | null) || [];
+  const requirements = coercePpdbList(ppdb?.requirements);
+  const flowSteps = coercePpdbList(ppdb?.flowSteps);
+  const schedule = coercePpdbList(ppdb?.schedule);
   const posterUrl = ppdb?.poster ? getMediaUrl(ppdb.poster) : "";
 
   return (
@@ -39,23 +41,60 @@ export default async function PpdbPage({ searchParams }: Props) {
         </section>
       ) : null}
 
-      <section className="grid gap-4 md:grid-cols-2">
+      <section className={`grid gap-4 ${schedule.length ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
         <article className="card-surface p-5">
           <h2 className="mb-3 text-lg font-semibold text-slate-900">Syarat Pendaftaran</h2>
-          <ol className="list-inside list-decimal space-y-1 text-sm text-slate-700">
-            {requirements.map((item) => (
-              <li key={item}>{item}</li>
+          <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
+            {requirements.map((item, index) => (
+              <li key={`${index}-${item.text}`}>
+                <p>{item.text}</p>
+                {item.subItems?.length ? (
+                  <ul className="mt-1 list-disc space-y-1 pl-5">
+                    {item.subItems.map((sub) => (
+                      <li key={sub}>{sub}</li>
+                    ))}
+                  </ul>
+                ) : null}
+              </li>
             ))}
           </ol>
         </article>
         <article className="card-surface p-5">
           <h2 className="mb-3 text-lg font-semibold text-slate-900">Alur Pendaftaran</h2>
-          <ol className="list-inside list-decimal space-y-1 text-sm text-slate-700">
-            {flowSteps.map((item) => (
-              <li key={item}>{item}</li>
+          <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
+            {flowSteps.map((item, index) => (
+              <li key={`${index}-${item.text}`}>
+                <p>{item.text}</p>
+                {item.subItems?.length ? (
+                  <ul className="mt-1 list-disc space-y-1 pl-5">
+                    {item.subItems.map((sub) => (
+                      <li key={sub}>{sub}</li>
+                    ))}
+                  </ul>
+                ) : null}
+              </li>
             ))}
           </ol>
         </article>
+        {schedule.length ? (
+          <article className="card-surface p-5">
+            <h2 className="mb-3 text-lg font-semibold text-slate-900">Jadwal Pelaksanaan</h2>
+            <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
+              {schedule.map((item, index) => (
+                <li key={`${index}-${item.text}`}>
+                  <p>{item.text}</p>
+                  {item.subItems?.length ? (
+                    <ul className="mt-1 list-disc space-y-1 pl-5">
+                      {item.subItems.map((sub) => (
+                        <li key={sub}>{sub}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              ))}
+            </ol>
+          </article>
+        ) : null}
       </section>
 
       <section className="card-surface overflow-hidden">

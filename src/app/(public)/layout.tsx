@@ -14,14 +14,14 @@ export default async function PublicLayout({
     : "/media/logo-sd.png";
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <SiteHeader
         schoolName={identity.schoolName || "SDN Turi 2 Blitar"}
         tagline={identity.tagline || "Website resmi"}
         logoUrl={logoUrl || "/media/logo-sd.png"}
       />
-      <main className="mx-auto w-full max-w-7xl px-4 py-7 lg:px-8">{children}</main>
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-7 lg:px-8">{children}</main>
       <SiteFooter />
-    </>
+    </div>
   );
 }

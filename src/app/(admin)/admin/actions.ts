@@ -8,6 +8,7 @@ import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { cloudinary } from "@/lib/cloudinary";
 import { extractPublicIdFromCloudinaryUrl } from "@/lib/media";
+import { parsePpdbTextarea } from "@/lib/ppdb-list";
 import { prisma } from "@/lib/prisma";
 
 const PPDB_GRADUATE_LIMIT_PER_YEAR = 50;
@@ -421,14 +422,9 @@ export async function updatePpdb(formData: FormData) {
   const periodYear = String(formData.get("periodYear") || "").trim();
   const posterPublicId = String(formData.get("posterPublicId") || "").trim();
   const posterAltText = String(formData.get("posterAltText") || "").trim();
-  const requirements = String(formData.get("requirements") || "")
-    .split("\n")
-    .map((v) => v.trim())
-    .filter(Boolean);
-  const flowSteps = String(formData.get("flowSteps") || "")
-    .split("\n")
-    .map((v) => v.trim())
-    .filter(Boolean);
+  const requirements = parsePpdbTextarea(String(formData.get("requirements") || ""));
+  const flowSteps = parsePpdbTextarea(String(formData.get("flowSteps") || ""));
+  const schedule = parsePpdbTextarea(String(formData.get("schedule") || ""));
   const notes = String(formData.get("notes") || "").trim();
 
   if (!periodYear) return;
@@ -441,6 +437,7 @@ export async function updatePpdb(formData: FormData) {
       periodYear,
       requirements,
       flowSteps,
+      schedule: schedule.length ? schedule : null,
       notes,
       posterMediaId: poster?.id || null,
       isActive: true,

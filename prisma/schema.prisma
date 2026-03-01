@@ -185,6 +185,7 @@ model PpdbInfo {
   periodYear   String
   requirements Json
   flowSteps    Json
+  schedule     Json?
   notes        String?
   posterMediaId String?
   isActive     Boolean @default(true)

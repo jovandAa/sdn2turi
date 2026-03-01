@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
@@ -48,7 +48,7 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="mx-auto max-w-md card-surface p-6">
+    <section className="mx-auto mt-10 max-w-md card-surface p-6 md:mt-14">
       <h1 className="text-2xl font-bold text-slate-900">Login Admin</h1>
       <p className="mt-1 text-sm text-slate-500">Masuk untuk mengelola konten website sekolah.</p>
       <form onSubmit={onSubmit} className="mt-5 space-y-3">

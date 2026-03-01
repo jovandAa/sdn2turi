@@ -2,6 +2,7 @@
 import { getPpdb } from "@/lib/cms";
 import { getMediaUrl } from "@/lib/media";
 import { PublicIdUploadField } from "@/components/admin/public-id-upload-field";
+import { ppdbListToTextarea } from "@/lib/ppdb-list";
 
 export default async function AdminPpdbPage() {
   const ppdb = await getPpdb();
@@ -16,12 +17,16 @@ export default async function AdminPpdbPage() {
           <input name="periodYear" defaultValue={ppdb?.periodYear || "2026/2027"} required />
         </label>
         <label>
-          Syarat (1 baris 1 item)
-          <textarea name="requirements" defaultValue={((ppdb?.requirements as string[] | null) || []).join("\n")} required />
+          Syarat (1 item per baris. Sub-poin: awali baris dengan "- ")
+          <textarea name="requirements" defaultValue={ppdbListToTextarea(ppdb?.requirements)} required />
         </label>
         <label>
-          Alur (1 baris 1 langkah)
-          <textarea name="flowSteps" defaultValue={((ppdb?.flowSteps as string[] | null) || []).join("\n")} required />
+          Alur (1 langkah per baris. Sub-poin: awali baris dengan "- ")
+          <textarea name="flowSteps" defaultValue={ppdbListToTextarea(ppdb?.flowSteps)} required />
+        </label>
+        <label>
+          Jadwal Pelaksanaan (opsional, 1 item per baris. Sub-poin: awali baris dengan "- ")
+          <textarea name="schedule" defaultValue={ppdbListToTextarea(ppdb?.schedule)} />
         </label>
         <label>
           Catatan

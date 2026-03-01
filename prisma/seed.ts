@@ -461,6 +461,20 @@ async function main() {
         "Seleksi administrasi",
         "Pengumuman hasil",
       ],
+      schedule: [
+        {
+          text: "Pendaftaran: 1–15 Juni 2026",
+        },
+        {
+          text: "Verifikasi Berkas: 16–18 Juni 2026",
+        },
+        {
+          text: "Pengumuman: 20 Juni 2026",
+        },
+        {
+          text: "Daftar Ulang: 21–23 Juni 2026",
+        },
+      ],
       notes: "Informasi lengkap dapat menghubungi kontak resmi sekolah.",
       isActive: true,
     },
