@@ -10,6 +10,7 @@ import { cloudinary } from "@/lib/cloudinary";
 import { extractPublicIdFromCloudinaryUrl } from "@/lib/media";
 import { parsePpdbTextarea } from "@/lib/ppdb-list";
 import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
 const PPDB_GRADUATE_LIMIT_PER_YEAR = 50;
 
@@ -18,6 +19,29 @@ const heroSchema = z.object({
   subtitle: z.string().min(3),
   ctaLabel: z.string().min(2),
   ctaHref: z.string().min(1),
+});
+
+const schoolProfileSchema = z.object({
+  schoolName: z.string().min(1),
+  status: z.string().min(1),
+  level: z.string().min(1),
+  accreditation: z.string().min(1),
+  accreditationSk: z.string().optional(),
+  accreditationDate: z.string().optional(),
+  curriculum: z.string().min(1),
+  address: z.string().min(1),
+  profileParagraph1: z.string().min(1),
+  profileParagraph2: z.string().min(1),
+  profileParagraph3: z.string().min(1),
+  vision: z.string().min(1),
+  missions: z.string().optional(),
+  studentSummary: z.string().min(1),
+  aboutParagraph1: z.string().min(1),
+  aboutParagraph2: z.string().min(1),
+  aboutParagraph3: z.string().min(1),
+  principalName: z.string().min(1),
+  principalTitle: z.string().min(1),
+  principalPhotoPublicId: z.string().optional(),
 });
 
 function revalidateAll() {
@@ -444,6 +468,13 @@ export async function updatePpdb(formData: FormData) {
     },
   });
 
+  revalidateAll();
+}
+
+export async function closePpdb() {
+  await ensureAdminAccess();
+
+  await prisma.ppdbInfo.updateMany({ data: { isActive: false } });
   revalidateAll();
 }
 
@@ -921,6 +952,98 @@ export async function updateSiteSocial(formData: FormData) {
   revalidateAll();
 }
 
+export async function updateSchoolProfileContent(formData: FormData) {
+  await ensureAdminAccess();
+
+  const parsed = schoolProfileSchema.safeParse({
+    schoolName: String(formData.get("schoolName") || "").trim(),
+    status: String(formData.get("status") || "").trim(),
+    level: String(formData.get("level") || "").trim(),
+    accreditation: String(formData.get("accreditation") || "").trim(),
+    accreditationSk: String(formData.get("accreditationSk") || "").trim(),
+    accreditationDate: String(formData.get("accreditationDate") || "").trim(),
+    curriculum: String(formData.get("curriculum") || "").trim(),
+    address: String(formData.get("address") || "").trim(),
+    profileParagraph1: String(formData.get("profileParagraph1") || "").trim(),
+    profileParagraph2: String(formData.get("profileParagraph2") || "").trim(),
+    profileParagraph3: String(formData.get("profileParagraph3") || "").trim(),
+    vision: String(formData.get("vision") || "").trim(),
+    missions: String(formData.get("missions") || "").trim(),
+    studentSummary: String(formData.get("studentSummary") || "").trim(),
+    aboutParagraph1: String(formData.get("aboutParagraph1") || "").trim(),
+    aboutParagraph2: String(formData.get("aboutParagraph2") || "").trim(),
+    aboutParagraph3: String(formData.get("aboutParagraph3") || "").trim(),
+    principalName: String(formData.get("principalName") || "").trim(),
+    principalTitle: String(formData.get("principalTitle") || "").trim(),
+    principalPhotoPublicId: String(formData.get("principalPhotoPublicId") || "").trim(),
+  });
+
+  if (!parsed.success) {
+    throw new Error("INVALID_SCHOOL_PROFILE_FORM");
+  }
+
+  const data = parsed.data;
+
+  const missions = String(data.missions || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.replace(/^(\d+[\.\)]|-)\s+/, "").trim())
+    .filter(Boolean);
+
+  await prisma.schoolProfileContent.upsert({
+    where: { key: "main" },
+    update: {
+      schoolName: data.schoolName,
+      status: data.status,
+      level: data.level,
+      accreditation: data.accreditation,
+      accreditationSk: data.accreditationSk?.trim() || null,
+      accreditationDate: data.accreditationDate?.trim() || null,
+      curriculum: data.curriculum,
+      address: data.address,
+      profileParagraph1: data.profileParagraph1,
+      profileParagraph2: data.profileParagraph2,
+      profileParagraph3: data.profileParagraph3,
+      vision: data.vision,
+      missions,
+      studentSummary: data.studentSummary,
+      aboutParagraph1: data.aboutParagraph1,
+      aboutParagraph2: data.aboutParagraph2,
+      aboutParagraph3: data.aboutParagraph3,
+      principalName: data.principalName,
+      principalTitle: data.principalTitle,
+      principalPhotoPublicId: data.principalPhotoPublicId?.trim() || null,
+    },
+    create: {
+      key: "main",
+      schoolName: data.schoolName,
+      status: data.status,
+      level: data.level,
+      accreditation: data.accreditation,
+      accreditationSk: data.accreditationSk?.trim() || null,
+      accreditationDate: data.accreditationDate?.trim() || null,
+      curriculum: data.curriculum,
+      address: data.address,
+      profileParagraph1: data.profileParagraph1,
+      profileParagraph2: data.profileParagraph2,
+      profileParagraph3: data.profileParagraph3,
+      vision: data.vision,
+      missions,
+      studentSummary: data.studentSummary,
+      aboutParagraph1: data.aboutParagraph1,
+      aboutParagraph2: data.aboutParagraph2,
+      aboutParagraph3: data.aboutParagraph3,
+      principalName: data.principalName,
+      principalTitle: data.principalTitle,
+      principalPhotoPublicId: data.principalPhotoPublicId?.trim() || null,
+    },
+  });
+
+  revalidateAll();
+  redirect("/admin/profil-tentang");
+}
+
 export async function updateClassPhotos(formData: FormData) {
   await ensureAdminAccess();
 
@@ -1001,6 +1124,7 @@ export async function createOrUpdatePageMeta(formData: FormData) {
   }
 
   revalidateAll();
+  redirect("/admin/pages?status=page-saved");
 }
 
 export async function createOrUpdatePageSection(formData: FormData) {
@@ -1021,7 +1145,7 @@ export async function createOrUpdatePageSection(formData: FormData) {
     try {
       content = JSON.parse(contentRaw);
     } catch {
-      throw new Error("INVALID_JSON");
+      content = { text: contentRaw };
     }
   }
 
@@ -1057,6 +1181,7 @@ export async function createOrUpdatePageSection(formData: FormData) {
   }
 
   revalidateAll();
+  redirect("/admin/pages?status=section-saved");
 }
 
 export async function deletePageSection(formData: FormData) {

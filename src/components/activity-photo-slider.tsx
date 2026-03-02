@@ -2,27 +2,35 @@
 
 import { useState } from "react";
 
-type ActivityPhotoSliderProps = {
-  title: string;
-  images: string[];
+type MediaItem = {
+  id: string;
+  type: "IMAGE" | "VIDEO";
+  url: string;
 };
 
-export function ActivityPhotoSlider({ title, images }: ActivityPhotoSliderProps) {
+type ActivityPhotoSliderProps = {
+  title: string;
+  items: MediaItem[];
+};
+
+export function ActivityPhotoSlider({ title, items }: ActivityPhotoSliderProps) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
-  if (!images.length) {
+  const validItems = items.filter((item) => Boolean(item.url));
+
+  if (!validItems.length) {
     return <div className="page-media h-44 bg-zinc-100" />;
   }
 
-  const current = images[index] || images[0];
+  const current = validItems[index] || validItems[0];
 
   function next() {
-    setIndex((prev) => (prev + 1) % images.length);
+    setIndex((prev) => (prev + 1) % validItems.length);
   }
 
   function prev() {
-    setIndex((prev) => (prev - 1 + images.length) % images.length);
+    setIndex((prev) => (prev - 1 + validItems.length) % validItems.length);
   }
 
   return (
@@ -37,7 +45,14 @@ export function ActivityPhotoSlider({ title, images }: ActivityPhotoSliderProps)
         className="w-full overflow-hidden rounded-2xl border border-zinc-200"
         title={`Lihat foto kegiatan ${title}`}
       >
-        <img src={images[0]} alt={title} className="page-media h-44 w-full object-cover" />
+        {validItems[0].type === "VIDEO" ? (
+          <div className="relative flex h-44 w-full items-center justify-center bg-black text-sm font-semibold text-white">
+            <span className="badge absolute left-3 top-3 bg-white/90 text-slate-800">VIDEO</span>
+            <span className="rounded-full bg-white/15 px-4 py-2">Klik untuk memutar</span>
+          </div>
+        ) : (
+          <img src={validItems[0].url} alt={title} className="page-media h-44 w-full object-cover" />
+        )}
       </button>
 
       {open ? (
@@ -51,15 +66,33 @@ export function ActivityPhotoSlider({ title, images }: ActivityPhotoSliderProps)
             </div>
 
             <div className="flex items-center gap-3">
-              <button suppressHydrationWarning type="button" onClick={prev} className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-700" disabled={images.length <= 1}>
+              <button
+                suppressHydrationWarning
+                type="button"
+                onClick={prev}
+                className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-700"
+                disabled={validItems.length <= 1}
+              >
                 Prev
               </button>
 
               <div className="flex-1 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
-                <img src={current} alt={`${title} ${index + 1}`} className="h-[60vh] w-full object-contain" />
+                {current.type === "VIDEO" ? (
+                  <video className="h-[60vh] w-full bg-black object-contain" controls preload="metadata" playsInline>
+                    <source src={current.url} />
+                  </video>
+                ) : (
+                  <img src={current.url} alt={`${title} ${index + 1}`} className="h-[60vh] w-full object-contain" />
+                )}
               </div>
 
-              <button suppressHydrationWarning type="button" onClick={next} className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-700" disabled={images.length <= 1}>
+              <button
+                suppressHydrationWarning
+                type="button"
+                onClick={next}
+                className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-700"
+                disabled={validItems.length <= 1}
+              >
                 Next
               </button>
             </div>

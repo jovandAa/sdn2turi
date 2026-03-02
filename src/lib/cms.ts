@@ -1,5 +1,19 @@
 import { prisma } from "@/lib/prisma";
 
+function isPrismaConnectivityError(error: unknown) {
+  if (!error || typeof error !== "object") return false;
+  const maybe = error as { name?: unknown; message?: unknown; code?: unknown };
+  const name = typeof maybe.name === "string" ? maybe.name : "";
+  const message = typeof maybe.message === "string" ? maybe.message : "";
+
+  return (
+    name.includes("PrismaClientInitializationError") ||
+    message.includes("Can't reach database server") ||
+    message.includes("ECONNREFUSED") ||
+    message.includes("Connection refused")
+  );
+}
+
 const schoolProfileFallback = {
   schoolName: "UPT Satuan Pendidikan SDN Turi 2",
   status: "Negeri",
@@ -39,162 +53,245 @@ const schoolProfileFallback = {
 } as const;
 
 export async function getIdentity() {
-  const setting = await prisma.siteSetting.findUnique({ where: { key: "identity" } });
-  return (
-    (setting?.value as {
-      schoolName?: string;
-      shortName?: string;
-      logoPublicId?: string;
-      tagline?: string;
-    }) || {
-      schoolName: "SDN Turi 2 Blitar",
-      shortName: "SDN Turi 2",
-      logoPublicId: "",
-      tagline: "Membentuk Generasi Cerdas, Kreatif, dan Berakhlak Mulia",
-    }
-  );
+  const fallback = {
+    schoolName: "SDN Turi 2 Blitar",
+    shortName: "SDN Turi 2",
+    logoPublicId: "",
+    tagline: "Membentuk Generasi Cerdas, Kreatif, dan Berakhlak Mulia",
+  };
+
+  try {
+    const setting = await prisma.siteSetting.findUnique({ where: { key: "identity" } });
+    return (
+      (setting?.value as {
+        schoolName?: string;
+        shortName?: string;
+        logoPublicId?: string;
+        tagline?: string;
+      }) || fallback
+    );
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return fallback;
+  }
 }
 
 export async function getFooterSetting() {
-  const setting = await prisma.siteSetting.findUnique({ where: { key: "footer" } });
-  return (
-    (setting?.value as {
-      footerDescription?: string;
-      copyright?: string;
-    }) || {
-      footerDescription: "",
-      copyright: "",
-    }
-  );
+  const fallback = {
+    footerDescription: "",
+    copyright: "",
+  };
+
+  try {
+    const setting = await prisma.siteSetting.findUnique({ where: { key: "footer" } });
+    return (
+      (setting?.value as {
+        footerDescription?: string;
+        copyright?: string;
+      }) || fallback
+    );
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return fallback;
+  }
 }
 
 export async function getBerandaSections() {
-  const page = await prisma.page.findUnique({
-    where: { slug: "beranda" },
-    include: {
-      sections: {
-        where: { isVisible: true },
-        orderBy: { sortOrder: "asc" },
+  try {
+    const page = await prisma.page.findUnique({
+      where: { slug: "beranda" },
+      include: {
+        sections: {
+          where: { isVisible: true },
+          orderBy: { sortOrder: "asc" },
+        },
       },
-    },
-  });
+    });
 
-  return page?.sections ?? [];
+    return page?.sections ?? [];
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return [];
+  }
 }
 
 export async function getProfileSetting() {
-  const setting = await prisma.siteSetting.findUnique({ where: { key: "profil" } });
-  return (
-    (setting?.value as {
-      overview?: string;
-      history?: string;
-      vision?: string;
-      mission?: string[];
-      students?: number;
-      teachers?: number;
-    }) || {
-      overview: "Profil belum diisi.",
-      history:
-        "UPT Satuan Pendidikan SDN Turi 2 merupakan sekolah dasar negeri di Kecamatan Sukorejo, Kota Blitar, Jawa Timur. Sekolah ini berdiri pada 17 April 1973 berdasarkan SK Inpres No. 10 dan terus berkomitmen memberikan layanan pendidikan dasar yang berkualitas.",
-      vision: "",
-      mission: [],
-      students: 0,
-      teachers: 0,
-    }
-  );
+  const fallback = {
+    overview: "Profil belum diisi.",
+    history:
+      "UPT Satuan Pendidikan SDN Turi 2 merupakan sekolah dasar negeri di Kecamatan Sukorejo, Kota Blitar, Jawa Timur. Sekolah ini berdiri pada 17 April 1973 berdasarkan SK Inpres No. 10 dan terus berkomitmen memberikan layanan pendidikan dasar yang berkualitas.",
+    vision: "",
+    mission: [] as string[],
+    students: 0,
+    teachers: 0,
+  };
+
+  try {
+    const setting = await prisma.siteSetting.findUnique({ where: { key: "profil" } });
+    return (
+      (setting?.value as {
+        overview?: string;
+        history?: string;
+        vision?: string;
+        mission?: string[];
+        students?: number;
+        teachers?: number;
+      }) || fallback
+    );
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return fallback;
+  }
 }
 
 export async function getStaff() {
-  return prisma.staffMember.findMany({
-    where: { isActive: true },
-    include: { photo: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  try {
+    return await prisma.staffMember.findMany({
+      where: { isActive: true },
+      include: { photo: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return [];
+  }
 }
 
 export async function getClassPhotoGalleries() {
-  const setting = await prisma.siteSetting.findUnique({ where: { key: "class-photos" } });
-  return (setting?.value as Record<string, unknown>) || {};
+  try {
+    const setting = await prisma.siteSetting.findUnique({ where: { key: "class-photos" } });
+    return (setting?.value as Record<string, unknown>) || {};
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return {};
+  }
 }
 
 export async function getFacilities() {
-  return prisma.facility.findMany({
-    where: { isActive: true },
-    include: { thumbnail: true },
-    orderBy: { sortOrder: "asc" },
-  });
+  try {
+    return await prisma.facility.findMany({
+      where: { isActive: true },
+      include: { thumbnail: true },
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return [];
+  }
 }
 
 export async function getActivities() {
-  return prisma.activity.findMany({
-    where: { status: "PUBLISHED" },
-    include: {
-      media: {
-        include: { media: true },
-        orderBy: { sortOrder: "asc" },
+  try {
+    return await prisma.activity.findMany({
+      where: { status: "PUBLISHED" },
+      include: {
+        media: {
+          include: { media: true },
+          orderBy: { sortOrder: "asc" },
+        },
       },
-    },
-    orderBy: { sortOrder: "asc" },
-  });
+      orderBy: { sortOrder: "asc" },
+    });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return [];
+  }
 }
 
 export async function getGallery() {
-  return prisma.galleryAlbum.findMany({
-    where: { status: "PUBLISHED" },
-    include: {
-      cover: true,
-      items: {
-        include: { media: true },
-        orderBy: { sortOrder: "asc" },
+  try {
+    return await prisma.galleryAlbum.findMany({
+      where: { status: "PUBLISHED" },
+      include: {
+        cover: true,
+        items: {
+          include: { media: true },
+          orderBy: { sortOrder: "asc" },
+        },
       },
-    },
-    orderBy: { publishedAt: "desc" },
-  });
+      orderBy: { publishedAt: "desc" },
+    });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return [];
+  }
 }
 
 export async function getPpdb() {
-  return prisma.ppdbInfo.findFirst({
-    where: { isActive: true },
-    include: { poster: true },
-    orderBy: { updatedAt: "desc" },
-  });
+  try {
+    return await prisma.ppdbInfo.findFirst({
+      where: { isActive: true },
+      include: { poster: true },
+      orderBy: { updatedAt: "desc" },
+    });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return null;
+  }
 }
 
 export async function getPpdbGraduates(year?: string) {
-  return prisma.ppdbGraduate.findMany({
-    where: {
-      isPublished: true,
-      graduationYear: year || undefined,
-    },
-    orderBy: [{ graduationYear: "desc" }, { admissionPath: "asc" }, { fullName: "asc" }],
-  });
+  try {
+    return await prisma.ppdbGraduate.findMany({
+      where: {
+        isPublished: true,
+        graduationYear: year || undefined,
+      },
+      orderBy: [{ graduationYear: "desc" }, { admissionPath: "asc" }, { fullName: "asc" }],
+    });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return [];
+  }
 }
 
 export async function getPpdbGraduateYears() {
-  const years = await prisma.ppdbGraduate.findMany({
-    distinct: ["graduationYear"],
-    select: { graduationYear: true },
-    orderBy: { graduationYear: "desc" },
-  });
+  try {
+    const years = await prisma.ppdbGraduate.findMany({
+      distinct: ["graduationYear"],
+      select: { graduationYear: true },
+      orderBy: { graduationYear: "desc" },
+    });
 
-  return years.map((y) => y.graduationYear);
+    return years.map((y) => y.graduationYear);
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return [];
+  }
 }
 
 export async function getContactInfo() {
-  return prisma.contactInfo.findFirst({ orderBy: { updatedAt: "desc" } });
+  try {
+    return await prisma.contactInfo.findFirst({ orderBy: { updatedAt: "desc" } });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return null;
+  }
 }
 
 export async function getMediaAssets() {
-  return prisma.mediaAsset.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 200,
-  });
+  try {
+    return await prisma.mediaAsset.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 200,
+    });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return [];
+  }
 }
 
 export async function getSchoolProfileContent() {
-  const content = await prisma.schoolProfileContent.findUnique({
-    where: { key: "main" },
-  });
+  let content: Awaited<ReturnType<typeof prisma.schoolProfileContent.findUnique>>;
+
+  try {
+    content = await prisma.schoolProfileContent.findUnique({
+      where: { key: "main" },
+    });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return schoolProfileFallback;
+  }
 
   if (!content) {
     return schoolProfileFallback;

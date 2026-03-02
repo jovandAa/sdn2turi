@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { HeroAnimator } from "@/components/hero-animator";
-import { getActivities, getBerandaSections, getContactInfo } from "@/lib/cms";
+import { getActivities, getBerandaSections, getContactInfo, getPpdb } from "@/lib/cms";
 import { getCloudinaryDeliveryUrl } from "@/lib/media";
 
 export const revalidate = 60;
@@ -55,6 +55,7 @@ export default async function HomePage() {
 
   const activities = await getActivities();
   const contact = await getContactInfo();
+  const ppdb = await getPpdb();
   const welcomeParagraphs = welcomeContent.body?.length ? welcomeContent.body : defaultWelcomeBody;
 
   return (
@@ -70,9 +71,11 @@ export default async function HomePage() {
             <Link href={heroContent.ctaHref || "/tentang"} className="btn-primary min-w-52">
               {heroContent.ctaLabel || "Pelajari Lebih Lanjut"}
             </Link>
-            <Link href="/informasi/ppdb" className="btn-outline min-w-52">
-              Lihat PPDB
-            </Link>
+            {ppdb ? (
+              <Link href="/informasi/ppdb" className="btn-outline min-w-52">
+                Lihat PPDB
+              </Link>
+            ) : null}
           </div>
         </section>
       </HeroAnimator>

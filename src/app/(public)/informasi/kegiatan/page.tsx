@@ -23,7 +23,11 @@ export default async function KegiatanPage() {
             </div>
             <ActivityPhotoSlider
               title={activity.title}
-              images={activity.media.filter((media) => media.media.resourceType !== "VIDEO").map((media) => getMediaUrl(media.media))}
+              items={activity.media.map((media) => ({
+                id: media.id,
+                type: media.media.resourceType,
+                url: getMediaUrl(media.media),
+              }))}
             />
           </article>
         ))}

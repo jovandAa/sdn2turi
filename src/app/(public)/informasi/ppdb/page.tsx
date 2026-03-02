@@ -19,6 +19,7 @@ export default async function PpdbPage({ searchParams }: Props) {
     getPpdbGraduates(selectedYear),
   ]);
 
+  const isOpen = Boolean(ppdb);
   const requirements = coercePpdbList(ppdb?.requirements);
   const flowSteps = coercePpdbList(ppdb?.flowSteps);
   const schedule = coercePpdbList(ppdb?.schedule);
@@ -27,12 +28,25 @@ export default async function PpdbPage({ searchParams }: Props) {
   return (
     <div className="space-y-6">
       <section className="card-surface p-6">
-        <p className="mb-2 inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">PPDB {ppdb?.periodYear}</p>
-        <h1 className="text-2xl font-bold text-slate-900">Informasi Penerimaan Peserta Didik Baru</h1>
-        <p className="mt-2 text-slate-600">Lihat syarat, alur pendaftaran, dan daftar siswa yang lulus.</p>
+        <p className="mb-2 inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+          {isOpen ? `PPDB ${ppdb?.periodYear}` : "PPDB Ditutup"}
+        </p>
+        <h1 className="text-2xl font-bold text-slate-900">
+          {isOpen ? "Informasi Penerimaan Peserta Didik Baru" : "PPDB Sedang Ditutup"}
+        </h1>
+        <p className="mt-2 text-slate-600">
+          {isOpen
+            ? "Lihat syarat, alur pendaftaran, dan daftar siswa yang lulus."
+            : "Informasi PPDB belum tersedia saat ini. Silakan hubungi sekolah untuk informasi lebih lanjut."}
+        </p>
+        {!isOpen ? (
+          <Link href="/kontak" className="btn-primary mt-4 w-fit">
+            Hubungi Sekolah
+          </Link>
+        ) : null}
       </section>
 
-      {posterUrl ? (
+      {isOpen && posterUrl ? (
         <section className="card-surface p-5">
           <h2 className="mb-3 text-lg font-semibold text-slate-900">Poster SPMB</h2>
           <div className="overflow-hidden rounded-2xl bg-slate-50">
@@ -41,46 +55,12 @@ export default async function PpdbPage({ searchParams }: Props) {
         </section>
       ) : null}
 
-      <section className={`grid gap-4 ${schedule.length ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
-        <article className="card-surface p-5">
-          <h2 className="mb-3 text-lg font-semibold text-slate-900">Syarat Pendaftaran</h2>
-          <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
-            {requirements.map((item, index) => (
-              <li key={`${index}-${item.text}`}>
-                <p>{item.text}</p>
-                {item.subItems?.length ? (
-                  <ul className="mt-1 list-disc space-y-1 pl-5">
-                    {item.subItems.map((sub) => (
-                      <li key={sub}>{sub}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </li>
-            ))}
-          </ol>
-        </article>
-        <article className="card-surface p-5">
-          <h2 className="mb-3 text-lg font-semibold text-slate-900">Alur Pendaftaran</h2>
-          <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
-            {flowSteps.map((item, index) => (
-              <li key={`${index}-${item.text}`}>
-                <p>{item.text}</p>
-                {item.subItems?.length ? (
-                  <ul className="mt-1 list-disc space-y-1 pl-5">
-                    {item.subItems.map((sub) => (
-                      <li key={sub}>{sub}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </li>
-            ))}
-          </ol>
-        </article>
-        {schedule.length ? (
+      {isOpen ? (
+        <section className={`grid gap-4 ${schedule.length ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
           <article className="card-surface p-5">
-            <h2 className="mb-3 text-lg font-semibold text-slate-900">Jadwal Pelaksanaan</h2>
+            <h2 className="mb-3 text-lg font-semibold text-slate-900">Syarat Pendaftaran</h2>
             <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
-              {schedule.map((item, index) => (
+              {requirements.map((item, index) => (
                 <li key={`${index}-${item.text}`}>
                   <p>{item.text}</p>
                   {item.subItems?.length ? (
@@ -94,8 +74,44 @@ export default async function PpdbPage({ searchParams }: Props) {
               ))}
             </ol>
           </article>
-        ) : null}
-      </section>
+          <article className="card-surface p-5">
+            <h2 className="mb-3 text-lg font-semibold text-slate-900">Alur Pendaftaran</h2>
+            <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
+              {flowSteps.map((item, index) => (
+                <li key={`${index}-${item.text}`}>
+                  <p>{item.text}</p>
+                  {item.subItems?.length ? (
+                    <ul className="mt-1 list-disc space-y-1 pl-5">
+                      {item.subItems.map((sub) => (
+                        <li key={sub}>{sub}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              ))}
+            </ol>
+          </article>
+          {schedule.length ? (
+            <article className="card-surface p-5">
+              <h2 className="mb-3 text-lg font-semibold text-slate-900">Jadwal Pelaksanaan</h2>
+              <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
+                {schedule.map((item, index) => (
+                  <li key={`${index}-${item.text}`}>
+                    <p>{item.text}</p>
+                    {item.subItems?.length ? (
+                      <ul className="mt-1 list-disc space-y-1 pl-5">
+                        {item.subItems.map((sub) => (
+                          <li key={sub}>{sub}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ) : null}
+        </section>
+      ) : null}
 
       <section className="card-surface overflow-hidden">
         <div className="flex flex-col gap-3 border-b border-slate-200 px-5 py-4 md:flex-row md:items-center md:justify-between">
@@ -146,10 +162,12 @@ export default async function PpdbPage({ searchParams }: Props) {
         </div>
       </section>
 
-      <section className="card-surface p-5 text-sm text-slate-600">
-        <p>{ppdb?.notes}</p>
-        <Link href="/kontak" className="btn-primary mt-4">Hubungi Sekolah</Link>
-      </section>
+      {isOpen ? (
+        <section className="card-surface p-5 text-sm text-slate-600">
+          <p>{ppdb?.notes}</p>
+          <Link href="/kontak" className="btn-primary mt-4">Hubungi Sekolah</Link>
+        </section>
+      ) : null}
     </div>
   );
 }

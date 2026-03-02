@@ -3,6 +3,7 @@
 const adminLinks = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/beranda", label: "Beranda" },
+  { href: "/admin/profil-tentang", label: "Profil & Tentang" },
   { href: "/admin/kegiatan", label: "Kegiatan" },
   { href: "/admin/galeri", label: "Galeri" },
   { href: "/admin/media", label: "Media" },

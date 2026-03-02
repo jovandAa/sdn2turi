@@ -3,6 +3,7 @@ import Link from "next/link";
 const links = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/beranda", label: "Beranda" },
+  { href: "/admin/profil-tentang", label: "Profil & Tentang" },
   { href: "/admin/pages", label: "Pages" },
   { href: "/admin/settings", label: "Settings" },
   { href: "/admin/kegiatan", label: "Kegiatan" },

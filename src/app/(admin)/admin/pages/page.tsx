@@ -5,7 +5,13 @@ import {
 } from "@/app/(admin)/admin/actions";
 import { prisma } from "@/lib/prisma";
 
-export default async function AdminPagesPage() {
+type Props = {
+  searchParams: Promise<{ status?: string }>;
+};
+
+export default async function AdminPagesPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const status = params.status;
   const pages = await prisma.page.findMany({
     include: {
       sections: {
@@ -17,6 +23,11 @@ export default async function AdminPagesPage() {
 
   return (
     <div className="space-y-6">
+      {status === "page-saved" || status === "section-saved" ? (
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          {status === "page-saved" ? "Berhasil update page." : "Berhasil update section."}
+        </div>
+      ) : null}
       <section className="section">
         <h3 className="text-lg font-semibold">Tambah/Hapus Metadata Page</h3>
         <form action={createOrUpdatePageMeta} className="mt-4 grid gap-3 md:grid-cols-2">

@@ -12,8 +12,8 @@ export default async function TentangPage() {
   return (
     <div className="space-y-8">
       <section className="hero">
-        <h1>Tentang SDN Turi 2</h1>
-        <p>Informasi umum UPT Satuan Pendidikan SDN Turi 2</p>
+        <h1>Tentang SDN 2 Turi Blitar </h1>
+        <p>Informasi umum UPT Satuan Pendidikan SDN 2 Turi Blitar</p>
       </section>
 
       <section className="section space-y-8">
