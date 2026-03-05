@@ -39,6 +39,11 @@ cp .env.example .env
 
 Lihat daftar variabel di `.env.example`.
 
+Catatan Neon (disarankan):
+
+- `DATABASE_URL`: pakai connection string **pooled/pooler** (PgBouncer) dari Neon dan tambahkan `pgbouncer=true` (opsional: `connection_limit=1`) agar stabil di development.
+- `DIRECT_URL`: pakai connection string **direct** (tanpa `-pooler`) dari Neon untuk kebutuhan Prisma yang tidak cocok lewat pooler (mis. `db:push`/migrasi).
+
 ## 4. Setup Database
 
 Generate Prisma client:

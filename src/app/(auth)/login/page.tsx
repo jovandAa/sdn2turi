@@ -16,7 +16,7 @@ export default function LoginPage() {
     setError("");
 
     const formData = new FormData(event.currentTarget);
-    const email = String(formData.get("email") || "");
+    const email = String(formData.get("email") || "").trim();
     const password = String(formData.get("password") || "");
 
     const result = await signIn("credentials", {
@@ -54,11 +54,28 @@ export default function LoginPage() {
       <form onSubmit={onSubmit} className="mt-5 space-y-3">
         <label className="block text-sm font-medium text-slate-700">
           Email
-          <input suppressHydrationWarning className="input-base mt-1" type="email" name="email" required />
+          <input
+            suppressHydrationWarning
+            className="input-base mt-1"
+            type="email"
+            name="email"
+            inputMode="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            required
+          />
         </label>
         <label className="block text-sm font-medium text-slate-700">
           Password
-          <input suppressHydrationWarning className="input-base mt-1" type="password" name="password" required />
+          <input
+            suppressHydrationWarning
+            className="input-base mt-1"
+            type="password"
+            name="password"
+            autoCapitalize="none"
+            autoCorrect="off"
+            required
+          />
         </label>
         {error ? <p className="text-sm font-medium text-rose-600">{error}</p> : null}
         <button suppressHydrationWarning className="btn-primary w-full" type="submit" disabled={loading}>

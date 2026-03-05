@@ -37,11 +37,17 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        if (!credentials?.email || !credentials?.password) {
+        const emailRaw = credentials?.email || "";
+        const passwordRaw = credentials?.password || "";
+        if (!emailRaw || !passwordRaw) {
           throw new Error("INVALID_CREDENTIALS");
         }
 
-        const email = credentials.email.toLowerCase().trim();
+        const email = emailRaw.toLowerCase().trim();
+        const passwordTrimmed = passwordRaw.trim();
+        if (!email || !passwordRaw) {
+          throw new Error("INVALID_CREDENTIALS");
+        }
         const ip = getRequestIp(req);
         const identifier = `${email}:${ip}`;
         const now = new Date();
@@ -79,7 +85,10 @@ export const authOptions: NextAuthOptions = {
           throw new Error("INVALID_CREDENTIALS");
         }
 
-        const valid = await bcrypt.compare(credentials.password, user.password);
+        let valid = await bcrypt.compare(passwordRaw, user.password);
+        if (!valid && passwordTrimmed !== passwordRaw) {
+          valid = await bcrypt.compare(passwordTrimmed, user.password);
+        }
         if (!valid) {
           const nextFailed = limiter.failedCount + 1;
           const shouldLock = nextFailed >= MAX_FAILED_ATTEMPTS;

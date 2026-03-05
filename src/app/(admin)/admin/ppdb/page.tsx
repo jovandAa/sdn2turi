@@ -1,18 +1,20 @@
 import { closePpdb, updatePpdb } from "@/app/(admin)/admin/actions";
-import { getPpdb } from "@/lib/cms";
+import { getLatestPpdb } from "@/lib/cms";
 import { getMediaUrl } from "@/lib/media";
 import { PublicIdUploadField } from "@/components/admin/public-id-upload-field";
 import { ppdbListToTextarea } from "@/lib/ppdb-list";
 
 export default async function AdminPpdbPage() {
-  const ppdb = await getPpdb();
+  const ppdb = await getLatestPpdb();
   const posterUrl = ppdb?.poster ? getMediaUrl(ppdb.poster) : "";
+  const isActive = Boolean(ppdb?.isActive);
+  const statusLabel = isActive ? `Aktif (${ppdb?.periodYear})` : ppdb ? `Ditutup (${ppdb.periodYear})` : "Ditutup";
 
   return (
     <article className="section">
       <h3 className="text-lg font-semibold">Update PPDB</h3>
       <p className="mt-1 text-sm text-slate-600">
-        Status: <span className="font-semibold">{ppdb ? `Aktif (${ppdb.periodYear})` : "Ditutup"}</span>
+        Status: <span className="font-semibold">{statusLabel}</span>
       </p>
 
       <form action={updatePpdb} className="mt-4">
@@ -55,7 +57,7 @@ export default async function AdminPpdbPage() {
       </form>
 
       <form action={closePpdb} className="mt-3">
-        <button type="submit" className="btn-outline w-fit" disabled={!ppdb}>
+        <button type="submit" className="btn-outline w-fit" disabled={!ppdb || !isActive}>
           Tutup PPDB
         </button>
       </form>

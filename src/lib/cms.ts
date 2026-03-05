@@ -230,6 +230,18 @@ export async function getPpdb() {
   }
 }
 
+export async function getLatestPpdb() {
+  try {
+    return await prisma.ppdbInfo.findFirst({
+      include: { poster: true },
+      orderBy: { updatedAt: "desc" },
+    });
+  } catch (error) {
+    if (!isPrismaConnectivityError(error)) throw error;
+    return null;
+  }
+}
+
 export async function getPpdbGraduates(year?: string) {
   try {
     return await prisma.ppdbGraduate.findMany({
