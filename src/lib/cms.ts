@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { sortPpdbGraduates } from "@/lib/ppdb-graduate-sort";
 
 function isPrismaConnectivityError(error: unknown) {
   if (!error || typeof error !== "object") return false;
@@ -244,13 +245,14 @@ export async function getLatestPpdb() {
 
 export async function getPpdbGraduates(year?: string) {
   try {
-    return await prisma.ppdbGraduate.findMany({
+    const graduates = await prisma.ppdbGraduate.findMany({
       where: {
         isPublished: true,
         graduationYear: year || undefined,
       },
-      orderBy: [{ graduationYear: "desc" }, { admissionPath: "asc" }, { fullName: "asc" }],
+      orderBy: [{ graduationYear: "desc" }, { registrationNo: "asc" }, { fullName: "asc" }],
     });
+    return sortPpdbGraduates(graduates);
   } catch (error) {
     if (!isPrismaConnectivityError(error)) throw error;
     return [];
